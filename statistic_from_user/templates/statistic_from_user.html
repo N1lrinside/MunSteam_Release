@@ -1,0 +1,22 @@
+{% extends 'template_base.html' %}
+{% block title %}Статистика{% endblock %}
+
+{% block content %}
+<div class="col-12 col-md-2 d-flex flex-column align-items-start">
+                <p class="">Фильтр:</p>
+                <form action="">
+                    <select class="form-select" aria-label="Default select example" name="tag">
+                        {% if name_game == None %}
+                            <option selected>Все</option>
+                        {% else %}
+                            <option selected>{{ name_game }}</option>
+                        {% endif %}
+                          <option value="Все">Все</option>
+                        {% for name_game in list_games %}
+                          <option value="{{ name_game }}">{{ name_game }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary mt-3">Выбрать</button>
+                </form>
+            </div>
+{% endblock %}
