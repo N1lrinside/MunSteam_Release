@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'MunSteam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.get('DB_HOST'),
@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'MunSteam.wsgi.application'
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS')
     }
-}'''
+}
 
 
 # Password validation
