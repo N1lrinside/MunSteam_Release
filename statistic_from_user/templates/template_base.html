@@ -19,7 +19,7 @@
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-
+    {% block head %} {% endblock %}
     <!-- and it's easy to individually load additional languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
 
@@ -60,8 +60,34 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="btn btn-sm btn btn-danger" href="https://t.me/access_interview_bot" target="_blank" type="button"></i>Зарегистрироваться</a>
-        </div>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Игры</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/statistic">Ваша статистика</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">В разработке</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">В разработке</a>
+              </li>
+          </ul>
+      {% if user.is_authenticated %}
+          <ul class="navbar-nav ms-auto">
+          <li class="nav-item">{{ user.username }}</span></li>
+          <li class="nav-item"><a class="btn btn-sm btn-danger me-2" href="{% url 'user:logout' %}" target="_blank" type="button">Выйти</a></li>
+          </ul>
+      {% else %}
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="btn btn-sm btn-danger me-2" href="{% url 'user:login' %}" target="_blank" type="button">Войти</a></li>
+            <li class="nav-item"><a class="btn btn-sm btn-danger" href="{% url 'user:register' %}" target="_blank" type="button">Зарегистрироваться</a></li>
+        </ul>
+      {% endif %}
+          </div>
+      </div>
       </div>
     </nav>
     <main class="container" style="flex: 1 1 auto;">
@@ -78,7 +104,7 @@
 <!--          <li class="nav-item nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">👾 easyoffer by Кивайко Алексей</li>-->
           <li class="nav-item"><a href="https://t.me/n1lrin" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-telegram"></i></a></li>
           <li class="nav-item"><a href="https://github.com/N1lrinside" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-github"></i></a></li>
-          <li class="nav-item"><a href="https://www.linkedin.com/in/kivaiko/" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-linkedin"></i></a></li>
+          <li class="nav-item"><a href="https://www.linkedin.com/" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-linkedin"></i></a></li>
           </ul>
   </footer>
 </div>

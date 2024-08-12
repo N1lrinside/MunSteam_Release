@@ -14,28 +14,20 @@
 		<div class="screen__content">
 			<form class="login" method="post">
 				{% csrf_token %}
-				<div class="login__field">
-					<i class="login__icon fas fa-user"></i>
-					<input type="text" name="username" class="login__input" placeholder="User name / Email">
-				</div>
-				<div class="login__field">
-					<i class="login__icon fas fa-lock"></i>
-					<input type="password" name="password" class="login__input" placeholder="Password">
-				</div>
-				{{ form.errors }}
+				<input type="hidden" name="next" value="{{ next }}"/>
+				<div class="form-error">{{ form.non_field_errors }}</div>
+				{% for f in form %}
+				<p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+				<div class="row-form-errors">{{ f.errors }}</div>
+				{% endfor %}
+				<div class="links"> <a href="#">Forgot Password</a></div>
+				<div class="links"> <a href="{% url 'user:register' %}">Sing In</a></div>
 				<button class="button login__submit">
 					<span class="button__text">Log In Now</span>
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>
 			</form>
-			<div class="social-login">
-				<h3>log in via</h3>
-				<div class="social-icons">
-					<a href="#" class="social-login__icon fab fa-instagram"></a>
-					<a href="#" class="social-login__icon fab fa-facebook"></a>
-					<a href="#" class="social-login__icon fab fa-twitter"></a>
-				</div>
-			</div>
+
 		</div>
 		<div class="screen__background">
 			<span class="screen__background__shape screen__background__shape4"></span>

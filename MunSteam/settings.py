@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'statistic_from_user',
-    'user'
+    'user',
+    'games'
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'MunSteam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.get('DB_HOST'),
@@ -86,8 +87,18 @@ DATABASES = {
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS')
     }
+}'''
+'postgresql+asyncpg://postgres:0000@localhost:5432/postgres'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "0000",
+        "HOST": "localhost",
+        "PORT": "5432",
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -134,4 +145,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'user/../static',
 ]
 
-LOGIN_REDIRECT_URL = reverse_lazy('user:account')
+LOGIN_REDIRECT_URL = reverse_lazy("user:profile")
+LOGOUT_REDIRECT_URL = reverse_lazy("games")
+LOGIN_URL = reverse_lazy("user:login")

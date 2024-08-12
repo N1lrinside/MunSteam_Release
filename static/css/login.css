@@ -176,3 +176,20 @@ body {
 .social-login__icon:hover {
 	transform: scale(1.5);
 }
+.container .screen .screen__content .login .links
+{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .screen .screen__content .login .links a
+{
+  color: #7875B5;
+  text-decoration: none;
+}
+.container .screen .screen__content .login .links a:nth-child(2)
+{
+  color: #FFFFFF;
+  font-weight: 650;
+}

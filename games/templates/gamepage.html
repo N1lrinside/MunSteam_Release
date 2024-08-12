@@ -1,0 +1,26 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/gamepage.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Game
+{% endblock %}
+{% block content %}
+<div class="game-card">
+    <div class="game-header">
+        <img src="{{ game.url_image }}" alt="{{ game.name }} cover image" class="game-cover">
+            <div class="game-info">
+                <h1 class="game-title">{{ game.name }}</h1>
+                <p class="game-genre">Жанр: {{ game.genre }}</p>
+                <p class="game-release">Дата выхода: {{ game.release_date }}</p>
+                <p class="game-price">Цена: {{ game.price }}</p>
+                <p class="game-players">Игроков в игре: {{ game.players_in_game }}</p>
+        </div>
+    </div>
+    <div class="game-description">
+        <h2>Описание</h2>
+        <p>{{ game.description }}</p>
+    </div>
+</div>
+{% endblock %}
