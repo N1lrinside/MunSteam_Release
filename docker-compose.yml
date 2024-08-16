@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/djangoProject
+      - ./:/app
     environment:
       - DB_HOST=database
       - DB_NAME=dbname
@@ -24,21 +24,47 @@ services:
       - POSTGRES_DB=dbname
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=pass
-
-  worker:
-    build:
-      context: .
-    hostname: worker
-    entrypoint: celery
-    command: -A celery_app.app worker --loglevel=info
     volumes:
-      - .:/djangoProject
-    links:
-      - redis
-    depends_on:
-      - redis
+      - db_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7.0.5
     hostname: redis
+
+  worker:
+    build: .
+    hostname: worker
+    entrypoint: celery
+    command: -A MunSteam worker --loglevel=info
+    volumes:
+      - ./:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
+
+  beat:
+    build: .
+    volumes:
+      - ./:/app
+    depends_on:
+      - redis
+      - worker
+      - database
+    entrypoint: celery
+    command: -A MunSteam beat -l info
+
+
+volumes:
+  db_data:
+
+
+
+
 

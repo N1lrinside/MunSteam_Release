@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'MunSteam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.get('DB_HOST'),
@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'MunSteam.wsgi.application'
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS')
     }
-}'''
+}
 'postgresql+asyncpg://postgres:0000@localhost:5432/postgres'
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         "NAME": "postgres",
@@ -98,7 +98,7 @@ DATABASES = {
         "HOST": "localhost",
         "PORT": "5432",
     }
-}
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -148,3 +148,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = reverse_lazy("user:profile")
 LOGOUT_REDIRECT_URL = reverse_lazy("games")
 LOGIN_URL = reverse_lazy("user:login")
+CELERY_BROKER_URL = 'redis://redis:6379/0'

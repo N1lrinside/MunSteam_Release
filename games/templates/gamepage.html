@@ -16,6 +16,7 @@ Game
                 <p class="game-release">Дата выхода: {{ game.release_date }}</p>
                 <p class="game-price">Цена: {{ game.price }}</p>
                 <p class="game-players">Игроков в игре: {{ game.players_in_game }}</p>
+                <p class="game-players">Последнее обновление: {{ game.get_update_time }}</p>
         </div>
     </div>
     <div class="game-description">
