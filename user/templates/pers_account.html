@@ -17,13 +17,16 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="{{ user.avatarfull }}" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
                       <h4>{{ user.username }}</h4>
-                      <p class="text-secondary mb-1">Full Stack Developer</p>
-                      <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                      <button class="btn btn-primary" onclick="location.href='/user/logout'">Logout</button>
-                      <button class="btn btn-outline-primary">Message</button>
+                      <p class="text-secondary mb-1">Пользователь Стима</p>
+                        {% if user.profilestate %}
+                            <p class="text-muted font-size-sm">Профиль: {{ user.get_communityvisibilitystate_display }}</p>
+                            <p class="text-muted font-size-sm">Статус: {{ user.get_personastate_display }}</p>
+                        {% endif %}
+                        <button class="btn btn-outline-primary">Обновить данные</button>
+                      <button class="btn btn-primary" onclick="location.href='/user/logout'">Выйти</button>
                     </div>
                   </div>
                 </div>
@@ -61,7 +64,7 @@
                       <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Kenneth Valdez
+                      {{ user.personaname }}
                     </div>
                   </div>
                   <hr>
@@ -74,30 +77,45 @@
                     </div>
                   </div>
                   <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">SteamUrl</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary" id="steamurlupdate">
+                        <!-- Если у пользователя уже есть привязанный Steam URL -->
+                        {% if user.profileurl %}
+                          <p>{{ user.profileurl }}</p>
+                            <button type="submit" id="detach-btn" class="btn btn-primary mt-2">Открепить</button>
+                        {% else %}
+                          <!-- Если у пользователя нет привязанного Steam URL, показываем форму -->
+                          <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="form-error">{{ form.non_field_errors }}</div>
+                              <p><label class="form-label" for="{{ form.id_for_label }}">{{ form.label }}</label>{{ form.profileurl  }}</p>
+		                        <div class="form-error">{{ form.profileurl.errors }}</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Прикрепить</button>
+                          </form>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Phone</h6>
+                      <h6 class="mb-0">Когда был последний раз в сети</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (239) 816-9029
+                      {{ user.lastlogoff_time }}
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Mobile</h6>
+                      <h6 class="mb-0">Когда был создан аккаунт</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (320) 380-4539
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Address</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      Bay Area, San Francisco, CA
+                        {{ user.createdacc_time }}
                     </div>
                   </div>
                   <hr>
@@ -173,4 +191,20 @@
 
         </div>
     </div>
+    <script>document.getElementById('detach-btn').addEventListener('click', function() {
+        fetch('{% url "user:detach_steam" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Очистить контент и показать форму привязки
+                document.getElementById('steamurlupdate').innerHTML = `<form id="steam-url-form">{% csrf_token %}<div class="form-group"><div id="form-error" class="form-error"></div><p><label class="form-label" for="{{ form.id_for_label }}">{{ form.label }}</label>{{ form.profileurl }}</p><div id="field-error" class="form-error"></div></div><button type="submit" class="btn btn-primary mt-2">Прикрепить</button></form>`;
+            }
+        });
+    });
+</script>
 {% endblock %}
