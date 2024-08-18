@@ -18,6 +18,7 @@ services:
     depends_on:
       - database
 
+
   database:
     image: postgres:15
     environment:
@@ -26,6 +27,7 @@ services:
       - POSTGRES_PASSWORD=pass
     volumes:
       - db_data:/var/lib/postgresql/data
+
 
   redis:
     image: redis:7.0.5
@@ -48,6 +50,21 @@ services:
       - DB_NAME=dbname
       - DB_USER=dbuser
       - DB_PASS=pass
+
+  flower:
+    build:
+      context: .
+    hostname: flower
+    entrypoint: celery
+    command: -A MunSteam flower
+    volumes:
+      - ./:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
 
   beat:
     build: .

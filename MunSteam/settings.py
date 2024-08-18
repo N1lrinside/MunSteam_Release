@@ -149,3 +149,5 @@ LOGIN_REDIRECT_URL = reverse_lazy("user:profile")
 LOGOUT_REDIRECT_URL = reverse_lazy("games")
 LOGIN_URL = reverse_lazy("user:login")
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+AUTH_USER_MODEL = 'user.SteamUser'

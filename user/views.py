@@ -1,8 +1,9 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import FormView
+from django.views import View
+from django.views.generic.edit import CreateView
 from user.forms import RegisterForm, LoginUserForm
 from django.urls import reverse_lazy
 
@@ -13,13 +14,29 @@ def profile(request):
     return render(request, 'pers_account.html')
 
 
-class RegisterView(FormView):
-    form_class = RegisterForm()
+class RegisterView(View):
     template_name = 'registration/register.html'
-    success_url = reverse_lazy("account")
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+
+    def get(self, request):
+        context = {
+            'form': RegisterForm()
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('user:profile')
+        context = {
+            'form': form
+        }
+        return render(request, self.template_name, context)
+
 
 
 class LoginUser(LoginView):
