@@ -1,7 +1,7 @@
 from django.urls import path
-from statistic_from_user import views
 
+from . import views
 
 urlpatterns = [
-    path('', views.main, name='home')
+    path('', views.StatisticView.as_view(), name='statistic')
 ]

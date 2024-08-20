@@ -28,3 +28,8 @@ class SteamUser(AbstractUser):
     gameextrainfo = models.CharField(max_length=255, null=True, blank=True)
     createdacc_time = models.DateTimeField(null=True, blank=True)
     lastlogoff_time = models.DateTimeField(null=True, blank=True)
+
+    def check_auth(self):
+        if self.profileurl is None:
+            return False
+        return True
