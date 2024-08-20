@@ -8,6 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - ./:/app
+    env_file:
+      - ./.env
     environment:
       - DB_HOST=database
       - DB_NAME=dbname
@@ -25,6 +27,8 @@ services:
       - POSTGRES_DB=dbname
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=pass
+    env_file:
+      - ./.env
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -40,6 +44,8 @@ services:
     command: -A MunSteam worker --loglevel=info
     volumes:
       - ./:/app
+    env_file:
+      - ./.env
     links:
       - redis
     depends_on:

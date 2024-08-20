@@ -17,6 +17,6 @@ class Game(View):
             'game': game
         })
 
+    def post(self, request):
+        pass
 
-def rel_shit(request, slug):
-    return render(request, 'mainpage.html')

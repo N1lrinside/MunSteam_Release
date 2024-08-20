@@ -85,7 +85,10 @@
                         <!-- Если у пользователя уже есть привязанный Steam URL -->
                         {% if user.profileurl %}
                           <p>{{ user.profileurl }}</p>
-                            <button type="submit" id="detach-btn" class="btn btn-primary mt-2">Открепить</button>
+                            <form method="post" action="{% url 'user:detach_steam' %}">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-primary mt-2">Открепить</button>
+                                </form>
                         {% else %}
                           <!-- Если у пользователя нет привязанного Steam URL, показываем форму -->
                           <form method="post">
@@ -121,7 +124,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                      <a class="btn btn-info " target="__blank" href="{% url 'user:password_change' %}">Изменить Пароль</a>
                     </div>
                   </div>
                 </div>

@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="{% static 'css/login.css' %}" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" rel="stylesheet">
-    <title>Login</title>
-</head>
+{% extends 'base_user.html' %}
+{% block title %}
+Логин
+{% endblock %}
+{% block content %}
 <body>
 <div class="container">
 	<div class="screen">
@@ -20,10 +15,10 @@
 				<p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
 				<div class="row-form-errors">{{ f.errors }}</div>
 				{% endfor %}
-				<div class="links"> <a href="#">Forgot Password</a></div>
-				<div class="links"> <a href="{% url 'user:register' %}">Sing In</a></div>
+				<div class="links"> <a href="{% url 'user:password_reset' %}">Забыли пароль?</a></div>
+				<div class="links"> <a href="{% url 'user:register' %}">Зарегистрироваться</a></div>
 				<button class="button login__submit">
-					<span class="button__text">Log In Now</span>
+					<span class="button__text">Войти</span>
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>
 			</form>
@@ -38,4 +33,4 @@
 	</div>
 </div>
 </body>
-</html>
+{% endblock %}

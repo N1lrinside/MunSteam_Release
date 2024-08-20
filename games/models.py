@@ -21,7 +21,7 @@ class GameSteam(models.Model):
         return self.name + ' ' + self.app_id
 
     def get_url(self):
-        return reverse('game', args=[self.app_id])
+        return reverse('games:game', args=[self.app_id])
 
     def get_update_time(self):
         return str(int(self.minutes_update[2:4])) + ' минут назад'

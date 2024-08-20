@@ -1,15 +1,13 @@
 import os
-from datetime import datetime, timezone
-
 import requests
-from dotenv import load_dotenv
+from datetime import datetime, timezone
+from django.conf import settings
 from .models import GameSteam
-load_dotenv()
 
 
 def player_count():
     apps_id = GameSteam.objects.values_list('app_id', flat=True)
-    steam_api_key = os.getenv('STEAM_API')
+    steam_api_key = settings.API_KEY
     url = f"https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/"
     for app_id in apps_id:
         params = {

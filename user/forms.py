@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django import forms
 from .service import get_id
 
@@ -46,3 +46,9 @@ class SteamUrlForm(forms.ModelForm):
         self.cleaned_data['steam_id'] = steam_id
 
         return url
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password1 = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password2 = forms.CharField(label="Подтверждение пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))

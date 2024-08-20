@@ -21,13 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2mxf*i=iv*v=rb7t+6=y$8os7=*-4^ri44ts&++qzd_hxuua!c'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
+
     'statistic_from_user',
     'user',
     'games'
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,8 +63,6 @@ ROOT_URLCONF = 'MunSteam.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MunSteam.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -88,17 +89,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASS')
     }
 }
-'postgresql+asyncpg://postgres:0000@localhost:5432/postgres'
-'''DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "0000",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -145,9 +135,41 @@ STATICFILES_DIRS = [
     BASE_DIR / 'user/../static',
 ]
 
+API_KEY = os.environ.get("STEAM_API")
 LOGIN_REDIRECT_URL = reverse_lazy("user:profile")
-LOGOUT_REDIRECT_URL = reverse_lazy("games")
+LOGOUT_REDIRECT_URL = reverse_lazy("games:main")
 LOGIN_URL = reverse_lazy("user:login")
-CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 AUTH_USER_MODEL = 'user.SteamUser'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://redis:6379',
+        'OPTIONS': {
+            'db': '1'
+        }
+    }
+}
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda _request: DEBUG
+}
+
+AUTHENTICATION_BACKENDS = {
+    'django.contrib.auth.backends.ModelBackend',
+    'user.auth.EmailAuthBackend'
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_PASSWORD = 'cnwvtgboibzfnjxo'
+EMAIL_HOST_USER = "munsteam@yandex.ru"
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

@@ -1,17 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from user.forms import RegisterForm, LoginUserForm, SteamUrlForm
+from user.forms import RegisterForm, LoginUserForm, SteamUrlForm, UserPasswordChangeForm
 from .service import get_id, get_data_user
-
-
-# Create your views here.
-'''@login_required
-def profile(request):
-    return render(request, 'pers_account.html')'''
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -40,7 +35,7 @@ class ProfileView(LoginRequiredMixin, View):
 
 
 class RegisterView(View):
-    template_name = 'registration/register.html'
+    template_name = 'registration_temp/register.html'
 
     def get(self, request):
         context = {
@@ -66,16 +61,29 @@ class RegisterView(View):
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
-    template_name = 'registration/login.html'
+    template_name = 'registration_temp/login.html'
     extra_context = {'title': 'Авторизация'}
 
+
+class UserPasswordChange(PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    template_name = "registration_temp/password_change_form.html"
+    success_url = reverse_lazy("user:password_change_done")
 
 
 def detach_steam(request):
     if request.method == 'POST':
         user = request.user
-        user.profileurl = None
         user.steam_id = None
+        user.personaname = 'Нет информации'
+        user.profileurl = None
+        user.avatarfull = 'https://bootdey.com/img/Content/avatar/avatar7.png'
+        user.personastate = None
+        user.profilestate = False
+        user.communityvisibilitystate = None
+        user.gameextrainfo = None
+        user.createdacc_time = None
+        user.lastlogoff_time = None
         user.save()
-        return JsonResponse({'success': True})
+        return redirect('user:profile')
     return JsonResponse({'success': False, 'errors': 'Invalid request method'})
