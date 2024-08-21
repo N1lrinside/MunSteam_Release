@@ -1,29 +1,65 @@
-table {
-  font-family:sans-serif;
-  th, td {
-    padding:.25em .5em;
-    text-align:left;
-    &:nth-child(2) {
-      text-align:right;
-    }
-  }
-  td {
-    background-color:#eee;
-  }
-  th {
-    background-color:#009;
-    color:#fff;
-  }
+
+
+/* Стили для заголовка статистики */
+.stats-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 30px; /* Отступ сверху */
+    margin-bottom: 20px; /* Отступ снизу */
 }
 
-.zigzag {
-  border-collapse:separate;
-  border-spacing:.25em 1em;
-  tbody tr:nth-child(odd) {
-    transform:rotate(2deg);
-  }
-  thead tr,
-  tbody tr:nth-child(even) {
-    transform:rotate(-2deg);
-  }
+/* Стили для таблицы */
+.table-responsive {
+    margin-bottom: 30px; /* Отступ снизу */
 }
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    background-color: #e9ecef;
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+/* Стили для сообщений */
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+    margin-top: 20px;
+}
+
+.alert-info .btn-primary {
+    background-color: #0c5460;
+    border: none;
+}
+
+/* Расширение ячейки времени для более длинных значений */
+.table td.time-played {
+    min-width: 200px; /* Установите ширину по необходимости */
+    white-space: nowrap;
+}
+

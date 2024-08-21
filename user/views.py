@@ -72,24 +72,6 @@ class UserPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy("user:password_change_done")
 
 
-'''def detach_steam(request):
-    if request.method == 'POST':
-        user = request.user
-        user.steam_id = None
-        user.personaname = 'Нет информации'
-        user.profileurl = None
-        user.avatarfull = 'https://bootdey.com/img/Content/avatar/avatar7.png'
-        user.personastate = None
-        user.profilestate = False
-        user.communityvisibilitystate = None
-        user.gameextrainfo = None
-        user.createdacc_time = None
-        user.lastlogoff_time = None
-        user.save()
-        return redirect('user:profile')
-    return JsonResponse({'success': False, 'errors': 'Invalid request method'})'''
-
-
 class DetachSteamView(View):
 
     def get(self, request):

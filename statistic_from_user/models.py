@@ -21,3 +21,10 @@ class GameStats(models.Model):
 
     def __str__(self):
         return self.user.personaname
+
+    def money_earned(self):
+        return str(self.total_money_earned) + '$'
+
+    def time_played_hours(self):
+        return (str(self.total_time_played // 3600) + ' часов '
+                + str(self.total_time_played // 60 % 60) + ' минут')
