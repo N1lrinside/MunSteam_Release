@@ -18,7 +18,7 @@ class SteamUser(AbstractUser):
         (3, 'Общедоступный'),
     ]
 
-    steam_id = models.CharField(max_length=20, unique=True, null=True)
+    steam_id = models.CharField(max_length=20, null=True)
     personaname = models.CharField(max_length=255, null=True, blank=True, default='Нет информации')
     profileurl = models.URLField(null=True)
     avatarfull = models.URLField(null=True, blank=True, default='https://bootdey.com/img/Content/avatar/avatar7.png')

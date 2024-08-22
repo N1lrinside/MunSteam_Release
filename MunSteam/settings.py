@@ -9,16 +9,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = EMAIL_HOST_USER
-
 API_KEY = os.environ.get('STEAM_API')
 
 LOGIN_REDIRECT_URL = reverse_lazy("user:profile")
@@ -40,7 +30,8 @@ INSTALLED_APPS = [
 
     'statistic_from_user',
     'user',
-    'games'
+    'games',
+    'achievements'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +118,14 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'user.auth.EmailAuthBackend',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_PASSWORD = 'cnwvtgboibzfnjxo'
+EMAIL_HOST_USER = "munsteam@yandex.ru"
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

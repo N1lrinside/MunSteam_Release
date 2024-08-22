@@ -9,5 +9,6 @@ urlpatterns = [
     path('statistic/', include('statistic_from_user.urls')),
     path('user/', include('user.urls', namespace='user')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('achievements.urls')),
     path('', include('games.urls'))
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT) + debug_toolbar_urls()

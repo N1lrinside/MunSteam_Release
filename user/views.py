@@ -7,6 +7,8 @@ from django.views import View
 
 from .forms import RegisterForm, LoginUserForm, SteamUrlForm, UserPasswordChangeForm
 from .service import get_id, get_data_user
+from achievements.service import games_user
+from achievements.models import GameUser
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -29,6 +31,10 @@ class ProfileView(LoginRequiredMixin, View):
             user.personaname, user.avatarfull, user.personastate, user.profilestate = info_user[:4]
             user.communityvisibilitystate, user.gameextrainfo, user.createdacc_time, user.lastlogoff_time = info_user[4:]
             user.save()
+            GameUser.objects.update_or_create(
+                user_steam_id=steam_id,
+                games=games_user(steam_id)
+            )
             return redirect('user:profile')
         context = {
             'form': form

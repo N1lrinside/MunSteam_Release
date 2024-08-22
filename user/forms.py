@@ -36,19 +36,6 @@ class SteamUrlForm(forms.ModelForm):
             'profileurl': forms.TextInput(attrs={'style': 'width: 400px;'})
         }
 
-    def clean_profileurl(self):
-        url = self.cleaned_data['profileurl']
-        if get_user_model().objects.filter(profileurl=url).exists():
-            raise forms.ValidationError("Этот стим аккаунт уже привязан")
-
-        steam_id = get_id(url)
-        if get_user_model().objects.filter(steam_id=steam_id).exists():
-            raise forms.ValidationError("Этот стим аккаунт уже привязан к другому пользователю")
-
-        self.cleaned_data['steam_id'] = steam_id
-
-        return url
-
 
 class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label="Старый пароль",
