@@ -13,8 +13,10 @@ class GameSteam(models.Model):
     release_date = models.CharField(max_length=50)
     price = models.CharField(max_length=20)
     players_in_game = models.CharField(default='Нет информации')
-    last_update = models.CharField(default=datetime.now(timezone.utc))
+    last_update_players = models.CharField(default=datetime.now(timezone.utc))
     minutes_update = models.CharField(max_length=30)
+    news = models.JSONField(null=True)
+    last_update_news = models.DateField(default=datetime.now())
 
     def __str__(self):
         return self.name + ' ' + self.app_id

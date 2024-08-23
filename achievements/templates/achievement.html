@@ -1,0 +1,35 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/achievement.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Достижения{% endblock %}
+{% block content %}
+<body>
+{% if exists %}
+    <div class="achievement-summary">
+        <h2>Достижения</h2>
+        <p>Получено: {{ count_achieved }} / {{ count_achievements }}</p>
+        <p>Процент полученных: {{ percentage|floatformat:2 }}%</p>
+    </div>
+    <div class="achievements">
+        {% for achievement in achievements %}
+            <div class="achievement {% if achievement.achieved %}achieved{% endif %}">
+                <h4>{{ achievement.name }}</h4>
+                {% if achievement.description %}
+                <p>{{ achievement.description }}</p>
+                {% else %}
+                <p>Описание отсутствует</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        <p>У этой игры нет достижений / Не удалось получить данные</p>
+        <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+        <a href="{% url 'user:profile' %}" class="btn btn-primary">Перейти в профиль</a>
+    </div>
+{% endif %}
+</body>
+{% endblock %}

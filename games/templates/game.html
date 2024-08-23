@@ -4,24 +4,79 @@
 <link href="{% static 'css/gamepage.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
-Game
+{{ game.name }}
 {% endblock %}
 {% block content %}
 <div class="game-card">
     <div class="game-header">
         <img src="{{ game.url_image }}" alt="{{ game.name }} cover image" class="game-cover">
-            <div class="game-info">
-                <h1 class="game-title">{{ game.name }}</h1>
-                <p class="game-genre">Жанр: {{ game.genre }}</p>
-                <p class="game-release">Дата выхода: {{ game.release_date }}</p>
-                <p class="game-price">Цена: {{ game.price }}</p>
-                <p class="game-players">Игроков в игре: {{ game.players_in_game }}</p>
-                <p class="game-players">Последнее обновление: {{ game.get_update_time }}</p>
+        <div class="game-info">
+            <h1 class="game-title">{{ game.name }}</h1>
+            <p class="game-genre">Жанр: {{ game.genre }}</p>
+            <p class="game-release">Дата выхода: {{ game.release_date }}</p>
+            <p class="game-price">Цена: {{ game.price }}</p>
+            <p class="game-players">Количество активных игроков: {{ game.players_in_game }}</p>
+            <p class="game-players">Последнее обновление активности: {{ game.get_update_time }}</p>
         </div>
     </div>
-    <div class="game-description">
-        <h2>Описание</h2>
-        <p>{{ game.description }}</p>
+    <div class="game-content">
+        <div class="game-description">
+            <h2>Описание</h2>
+            <!-- Полный текст -->
+            <p class="full-text">{{ game.description_full }}</p>
+            <!-- Только изображения -->
+            <div class="image-only-content" data-description="{{ game.description_images }}"></div>
+        </div>
+        <div class="game-news">
+            <div class="news-header">
+                <h2>Новости</h2>
+                <span class="news-date">{{ game.last_update_news }}</span>
+            </div>
+            {% for name_news, name_description in game.news.items %}
+                <div class="news-item">
+                    <h3 class="news-title">{{ name_news }}</h3>
+                    <p class="full-text news-description">{{ name_description|safe }}</p>
+                    <div class="image-only-content" data-description="{{ name_description }}"></div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для преобразования ссылок на изображения в <img> элементы
+    function convertLinksToImages(html) {
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+
+        var imageLinks = tempDiv.textContent.match(/https?:\/\/.*\.(jpg|jpeg|png|gif)/gi);
+        tempDiv.innerHTML = '';  // Очищаем временный div, чтобы вставить только картинки
+
+        if (imageLinks) {
+            imageLinks.forEach(function(url) {
+                var img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Image';
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.margin = '10px 0';
+                img.style.display = 'block';
+
+                tempDiv.appendChild(img);
+            });
+        }
+
+        return tempDiv.innerHTML;
+    }
+
+    // Преобразование для блока с изображениями
+    document.querySelectorAll('.image-only-content').forEach(function(descriptionDiv) {
+        var htmlContent = descriptionDiv.getAttribute('data-description');
+        var updatedContent = convertLinksToImages(htmlContent);
+        descriptionDiv.innerHTML = updatedContent;
+    });
+});
+</script>
+
 {% endblock %}

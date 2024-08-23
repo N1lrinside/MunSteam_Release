@@ -19,5 +19,9 @@ app.conf.beat_schedule = {
     'update_time': {
         'task': 'games.tasks.update_time',
         'schedule': crontab(minute='*')
+    },
+    'update_news': {
+        'task': 'games.tasks.get_news_about_game',
+        'schedule': crontab(day_of_month='*/3')
     }
 }
