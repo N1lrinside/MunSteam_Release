@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -38,6 +36,6 @@ class SteamUser(AbstractUser):
         return True
 
     def check_status(self):
-        if self.profilestate == 3:
+        if self.communityvisibilitystate == 1:
             return False
         return True

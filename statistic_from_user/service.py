@@ -1,5 +1,6 @@
 from django.conf import settings
 
+from friends.models import UserFriends
 from .models import GameStats
 from games.service import get_data_from_api
 
@@ -42,3 +43,6 @@ def check_game_on_account(steam_id, app_id=730):
         if game['appid'] == app_id:
             return True
     return False
+
+def get_friends_user(steam_id):
+    return UserFriends.objects.filter(steam_id_user=steam_id).get()

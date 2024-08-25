@@ -36,7 +36,8 @@ def get_friends_list(steam_id):
     return sorted(data['friendslist']['friends'], key=lambda x: x['friend_since'])[:50]
 
 
-l = get_friends_list(76561198821788610)
-print(l)
-for i in l:
-    print(get_friend_info(i['steamid']))
+l = get_friends_list(76561199764676485)
+print(bool(l))
+
+
+# У вас нет друзей, не привязан аккаунт, не вошли

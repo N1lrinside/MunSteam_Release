@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="container">
-    {% if user.is_authenticated and user.check_auth and context %}
+    {% if user.check_auth and context %}
     <form method="GET">
         <div class="form-group">
             <label for="friend">Выберите друга для сравнения статистики:</label>

@@ -97,7 +97,7 @@
                           <p>{{ user.profileurl }}</p>
                             <form method="post" action="{% url 'user:detach_steam' %}">
                                 {% csrf_token %}
-                                {% if user.check_status %}
+                                {% if not user.check_status %}
                                      <div class="alert alert-warning mt-4" role="alert">
                                         <strong>⚠ Ваш профиль закрыт.</strong> Доступ к множеству функций недоступен.
                                      </div>

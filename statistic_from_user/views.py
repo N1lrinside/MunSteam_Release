@@ -2,7 +2,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
-from .service import get_stats_in_game, check_game_on_account
+from .service import get_stats_in_game, check_game_on_account, get_friends_user
 from .models import GameStats
 from friends.models import UserFriends
 
@@ -16,7 +16,7 @@ class StatisticView(LoginRequiredMixin, View):
             get_stats_in_game(user.steam_id)
             context = True
             stat = GameStats.objects.filter(user_steam_id=user.steam_id).get()
-            friends = UserFriends.objects.filter(steam_id_user=user.steam_id).get()
+            friends = get_friends_user(user.steam_id)
             if request.GET.get('friend'):
                 check = True
                 get_stats_in_game(request.GET.get('friend'))
