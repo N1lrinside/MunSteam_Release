@@ -30,9 +30,6 @@ class GameAchievementView(LoginRequiredMixin, ListView):
 
 class AchievementsView(LoginRequiredMixin, View):
 
-    def post(self, request):
-        pass
-
     def get(self, request, app_id):
         user = request.user
         achiv_exists = GameAchievement.objects.filter(user=user, app_id=app_id)
@@ -67,3 +64,6 @@ class AchievementsView(LoginRequiredMixin, View):
             'count_achieved': count_achieved,
             'percentage':  percentage
         })
+
+    def post(self, request):
+        pass

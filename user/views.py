@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
@@ -7,6 +9,7 @@ from django.views import View
 
 from .forms import RegisterForm, LoginUserForm, SteamUrlForm, UserPasswordChangeForm
 from .service import get_id, get_data_user
+from .tasks import update_info
 from achievements.service import games_user
 from achievements.models import GameUser
 
@@ -16,7 +19,8 @@ class ProfileView(LoginRequiredMixin, View):
 
     def get(self, request):
         context = {
-            'form': SteamUrlForm()
+            'form': SteamUrlForm(),
+            'today': date.today()
         }
         return render(request, self.template_name, context=context)
 
@@ -78,7 +82,7 @@ class UserPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy("user:password_change_done")
 
 
-class DetachSteamView(View):
+class DetachSteamView(LoginRequiredMixin, View):
 
     def get(self, request):
         pass
@@ -95,5 +99,18 @@ class DetachSteamView(View):
         user.gameextrainfo = None
         user.createdacc_time = None
         user.lastlogoff_time = None
+        user.save()
+        return redirect('user:profile')
+
+
+class UpdateView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        user = request.user
+        update_info.delay(user.steam_id)
+        user.last_update = date.today()
         user.save()
         return redirect('user:profile')

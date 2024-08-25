@@ -62,4 +62,9 @@
     min-width: 200px; /* Установите ширину по необходимости */
     white-space: nowrap;
 }
+.highlight {
+    background-color: #d4edda !important; /* Светло-зеленый фон */
+    font-weight: bold !important; /* Полужирный текст */
+}
+
 

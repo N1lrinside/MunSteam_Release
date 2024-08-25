@@ -25,7 +25,17 @@
                             <p class="text-muted font-size-sm">Профиль: {{ user.get_communityvisibilitystate_display }}</p>
                             <p class="text-muted font-size-sm">Статус: {{ user.get_personastate_display }}</p>
                         {% endif %}
-                        <button class="btn btn-outline-primary">Обновить данные</button>
+                        {% load tz %}
+{% if user.last_update == today %}
+    <button class="btn btn-outline-primary" disabled>Обновить данные</button>
+    <p class="text-muted">Вы уже обновляли данные сегодня. Попробуйте снова завтра.</p>
+{% else %}
+    <form method="post" action="{% url 'user:update_data' %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-primary" type="submit">Обновить данные</button>
+    </form>
+{% endif %}
+
                       <button class="btn btn-primary" onclick="location.href='/user/logout'">Выйти</button>
                     </div>
                   </div>
@@ -82,14 +92,20 @@
                         <h6 class="mb-0">SteamUrl</h6>
                       </div>
                       <div class="col-sm-9 text-secondary" id="steamurlupdate">
-                        <!-- Если у пользователя уже есть привязанный Steam URL -->
                         {% if user.profileurl %}
+
                           <p>{{ user.profileurl }}</p>
                             <form method="post" action="{% url 'user:detach_steam' %}">
-                                  {% csrf_token %}
-                                  <button type="submit" class="btn btn-primary mt-2">Открепить</button>
+                                {% csrf_token %}
+                                {% if user.check_status %}
+                                     <div class="alert alert-warning mt-4" role="alert">
+                                        <strong>⚠ Ваш профиль закрыт.</strong> Доступ к множеству функций недоступен.
+                                     </div>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary mt-2">Открепить</button>
                                 </form>
                         {% else %}
+
                           <!-- Если у пользователя нет привязанного Steam URL, показываем форму -->
                           <form method="post">
                             {% csrf_token %}

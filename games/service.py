@@ -21,7 +21,8 @@ def get_data_from_api(url, app_id=730, steam_id=0):
         'include_played_free_games': True,
         'steamid': steam_id,
         'steamids': steam_id,
-        "vanityurl": steam_id,
+        'vanityurl': steam_id,
+        'relationship': 'friend',
     }
     response = requests.get(url, params=params)
     data = response.json()

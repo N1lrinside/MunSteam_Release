@@ -5,6 +5,7 @@ from datetime import datetime
 from django.conf import settings
 
 from games.service import get_data_from_api
+from statistic_from_user.service import get_stats_in_game, check_game_on_account
 
 api_key = settings.API_KEY
 
@@ -32,8 +33,12 @@ def get_data_user(steam_id):
     data = get_data_from_api(url, steam_id=steam_id)
     for info in data['response']['players']:
         last_logoff_unix = info.get('lastlogoff')
-        last_logoff_time = datetime.fromtimestamp(last_logoff_unix)
-        created_acc_time = datetime.fromtimestamp(info.get('timecreated'))
+        if last_logoff_unix is not None:
+            last_logoff_time = datetime.fromtimestamp(last_logoff_unix)
+            created_acc_time = datetime.fromtimestamp(info.get('timecreated'))
+        else:
+            last_logoff_time = datetime.now()
+            created_acc_time = datetime.now()
         return [
                 info.get('personaname'),
                 info.get('avatarfull'),
@@ -44,3 +49,8 @@ def get_data_user(steam_id):
                 created_acc_time.strftime('%Y-%m-%d %H:%M:%S'),
                 last_logoff_time.strftime('%Y-%m-%d %H:%M:%S'),
                 ]
+
+
+def update_info_user(steam_id):
+    if check_game_on_account(steam_id):
+        get_stats_in_game(steam_id)

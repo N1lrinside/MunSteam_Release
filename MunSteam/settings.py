@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'statistic_from_user',
     'user',
     'games',
-    'achievements'
+    'achievements',
+    'friends'
 ]
 
 MIDDLEWARE = [

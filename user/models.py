@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -28,8 +30,14 @@ class SteamUser(AbstractUser):
     gameextrainfo = models.CharField(max_length=255, null=True, blank=True)
     createdacc_time = models.DateTimeField(null=True, blank=True)
     lastlogoff_time = models.DateTimeField(null=True, blank=True)
+    last_update = models.DateField(null=True)
 
     def check_auth(self):
         if self.profileurl is None:
+            return False
+        return True
+
+    def check_status(self):
+        if self.profilestate == 3:
             return False
         return True

@@ -34,5 +34,6 @@ urlpatterns = [
     path('password-reset/complete',
          PasswordResetCompleteView.as_view(template_name='registration_temp/password_reset_complete.html'),
          name='password_reset_complete'),
-    path('detach-steam/', views.DetachSteamView.as_view(), name='detach_steam')
+    path('detach-steam/', views.DetachSteamView.as_view(), name='detach_steam'),
+    path('update-time/', views.UpdateView.as_view(), name='update_data')
 ]

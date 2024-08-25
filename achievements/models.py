@@ -5,12 +5,12 @@ from user.models import SteamUser
 
 
 class GameAchievement(models.Model):
-    user = models.ForeignKey(SteamUser, on_delete=models.CASCADE)
+    user_steam_id = models.CharField(max_length=50, unique=True, null=True)
     app_id = models.CharField(max_length=50, null=True)
     achievements = models.JSONField()
 
     def __str__(self):
-        return self.user.username
+        return str(self.user_steam_id) + self.app_id
 
 
 class GameUser(models.Model):

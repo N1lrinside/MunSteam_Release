@@ -4,7 +4,7 @@ from user.models import SteamUser
 
 
 class GameStats(models.Model):
-    user = models.ForeignKey(SteamUser, on_delete=models.CASCADE)
+    user_steam_id = models.CharField(max_length=50, unique=True, null=True)
     game_id = models.IntegerField(default=730)
     total_kills = models.IntegerField(null=True)
     total_deaths = models.IntegerField(null=True)
@@ -20,7 +20,7 @@ class GameStats(models.Model):
     total_matches_played = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.user.personaname
+        return str(self.user_steam_id)
 
     def money_earned(self):
         return str(self.total_money_earned) + '$'
