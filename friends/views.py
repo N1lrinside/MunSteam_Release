@@ -9,7 +9,7 @@ class FriendsView(SteamURLRequiredMixin, View):
 
     def get(self, request):
         user = request.user
-        info_friends, text = get_friends(user, user.steam_id)
+        info_friends, text = get_friends(user.steam_id)
         return render(request, 'friendspage.html', context={
             'friends_info': info_friends,
             'text': text

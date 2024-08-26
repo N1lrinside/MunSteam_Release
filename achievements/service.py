@@ -1,8 +1,5 @@
-from django.conf import settings
-
+from achievements.models import GameAchievement
 from games.service import get_data_from_api
-
-api_key = settings.API_KEY
 
 
 def games_user(steam_id):
@@ -34,3 +31,29 @@ def get_achiviements_game(steam_id, app_id=578080):
             return False
     else:
         return False
+
+
+def get_achievements(steam_id, app_id):
+    if exists_achievements(steam_id, app_id):
+        achievements, count_achievements, count_achieved, percentage = exists_achievements(steam_id, app_id)
+    else:
+        achievements = get_achiviements_game(steam_id, app_id)
+        count_achievements = len(achievements)
+        count_achieved = len([i for i in achievements if i['achieved']])
+        percentage = (count_achieved / count_achievements) * 100
+        GameAchievement.objects.update_or_create(
+                user_steam_id=steam_id,
+                app_id=app_id,
+                achievements=achievements
+        )
+    return achievements, count_achievements, count_achieved, percentage
+
+
+def exists_achievements(steam_id, app_id):
+    achiv_exists = GameAchievement.objects.filter(user_steam_id=steam_id, app_id=app_id)
+    if achiv_exists.exists():
+        achievements = achiv_exists.first().achievements
+        count_achievements = len(achievements)
+        count_achieved = len([i for i in achievements if i['achieved']])
+        percentage = (count_achieved / count_achievements) * 100
+        return [achievements, count_achievements, count_achieved, percentage]

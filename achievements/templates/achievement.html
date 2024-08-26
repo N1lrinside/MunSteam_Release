@@ -6,8 +6,10 @@
 {% block title %}Достижения{% endblock %}
 {% block content %}
 <body>
-{% if exists %}
+{% if achievements %}
     <div class="achievement-summary">
+    {{ for game in game_ }}
+        <h2>{{ game_name }}</h2>
         <h2>Достижения</h2>
         <p>Получено: {{ count_achieved }} / {{ count_achievements }}</p>
         <p>Процент полученных: {{ percentage|floatformat:2 }}%</p>

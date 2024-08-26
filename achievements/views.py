@@ -1,13 +1,13 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 
-from .models import GameUser, GameAchievement
-from .service import get_achiviements_game
+from .models import GameUser
+from .service import get_achievements
+from user.utils import SteamURLRequiredMixin
 
 
-class GameAchievementView(LoginRequiredMixin, ListView):
+class GameAchievementView(SteamURLRequiredMixin, ListView):
     model = GameUser
     template_name = 'gameachievements.html'
     context_object_name = 'games'
@@ -28,38 +28,13 @@ class GameAchievementView(LoginRequiredMixin, ListView):
         return context
 
 
-class AchievementsView(LoginRequiredMixin, View):
+class AchievementsView(SteamURLRequiredMixin, View):
 
     def get(self, request, app_id):
         user = request.user
-        achiv_exists = GameAchievement.objects.filter(user=user, app_id=app_id)
-        if achiv_exists.exists():
-            exists = True
-            achievements = achiv_exists.first().achievements
-            count_achievements = len(achievements)
-            count_achieved = len([i for i in achievements if i['achieved']])
-            percentage = (count_achieved / count_achievements) * 100
-        else:
-            exists = True
-            achievements = get_achiviements_game(user.steam_id, app_id)
-            if achievements:
-                count_achievements = len(achievements)
-                count_achieved = len([i for i in achievements if i['achieved']])
-                percentage = (count_achieved / count_achievements) * 100
-                achiv_exists.update_or_create(
-                    user=user,
-                    app_id=app_id,
-                    achievements=achievements
-                )
-            else:
-                exists = False
-                count_achievements = 0
-                count_achieved = 0
-                percentage = 0
-
+        achievements, count_achievements, count_achieved, percentage = get_achievements(user.steam_id, app_id)
         return render(request, 'achievement.html', context={
             'achievements': achievements,
-            'exists': exists,
             'count_achievements': count_achievements,
             'count_achieved': count_achieved,
             'percentage':  percentage

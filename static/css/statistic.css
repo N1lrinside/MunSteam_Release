@@ -1,70 +1,11 @@
-
-
-/* Стили для заголовка статистики */
-.stats-heading {
-    font-size: 1.5rem;
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
     font-weight: bold;
-    margin-top: 30px; /* Отступ сверху */
-    margin-bottom: 20px; /* Отступ снизу */
 }
 
-/* Стили для таблицы */
-.table-responsive {
-    margin-bottom: 30px; /* Отступ снизу */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    font-weight: bold;
 }
-
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-}
-
-.table th,
-.table td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-}
-
-.table thead th {
-    vertical-align: bottom;
-    background-color: #e9ecef;
-}
-
-.table tbody tr:nth-of-type(odd) {
-    background-color: #f8f9fa;
-}
-
-.table-bordered {
-    border: 1px solid #dee2e6;
-}
-
-.table-bordered th,
-.table-bordered td {
-    border: 1px solid #dee2e6;
-}
-
-/* Стили для сообщений */
-.alert-info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
-    margin-top: 20px;
-}
-
-.alert-info .btn-primary {
-    background-color: #0c5460;
-    border: none;
-}
-
-/* Расширение ячейки времени для более длинных значений */
-.table td.time-played {
-    min-width: 200px; /* Установите ширину по необходимости */
-    white-space: nowrap;
-}
-.highlight {
-    background-color: #d4edda !important; /* Светло-зеленый фон */
-    font-weight: bold !important; /* Полужирный текст */
-}
-
-

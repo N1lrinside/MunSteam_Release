@@ -6,9 +6,9 @@
 {% endblock %}
 {% block content %}
     {% if friends_info %}
-        <h1>Мои друзья</h1>
+        <h1 class="mt-5 mb-5 fs-3">Друзья</h1>
         <div class="friends-grid">
-            {% for friend in friends_info %}
+            {% for friend in friends_info.friends_info %}
                     <div class="friend-card">
                     <img src="{{ friend.avatarfull }}" alt="{{ friend.personaname }}'s Avatar" class="friend-avatar">
                     <div class="friend-details">

@@ -1,40 +1,52 @@
 from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
-from .service import get_stats_in_game, check_game_on_account, get_friends_user
+from friends.service import get_friends
+from .service import ur_statistic
 from .models import GameStats
 from friends.models import UserFriends
+from user.utils import SteamURLRequiredMixin
 
 
-class StatisticView(LoginRequiredMixin, View):
+class YourStatisticView(SteamURLRequiredMixin, View):
     template_name = 'statistic_from_user.html'
 
     def get(self, request):
         user = request.user
-        if user.check_auth() and check_game_on_account(user.steam_id):
-            get_stats_in_game(user.steam_id)
-            context = True
-            stat = GameStats.objects.filter(user_steam_id=user.steam_id).get()
-            friends = get_friends_user(user.steam_id)
-            if request.GET.get('friend'):
-                check = True
-                get_stats_in_game(request.GET.get('friend'))
-                stat_friend = GameStats.objects.filter(user_steam_id=request.GET.get('friend')).get()
-            else:
-                check = False
-                stat_friend = "Не выбран друг"
-        else:
-            check = False
-            context = False
-            stat = "Ваш стим аккаунт не привязан или У вас нет CS2"
-            stat_friend = "Не выбран друг"
+        statistic = ur_statistic(user.steam_id)
         return render(request, self.template_name, context={
-            'context': context,
-            'stat': stat,
+            'statistic': statistic,
+        })
+
+    def post(self, request):
+        pass
+
+
+class ChoiseView(SteamURLRequiredMixin, View):
+    template_name = 'choice.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        pass
+
+
+class StatisticWithFriendsView(SteamURLRequiredMixin, View):
+    template_name = 'statistic_with_friend.html'
+
+    def get(self, request):
+        user = request.user
+        statistic = ur_statistic(user.steam_id)
+        friends, text = get_friends(user.steam_id)
+        statistic_friend = []
+        if request.GET.get('friend'):
+            statistic_friend = ur_statistic(request.GET.get('friend'))
+        return render(request, self.template_name, context={
+            'stat': statistic,
             'friends': friends,
-            'check': check,
-            'stat_friend': stat_friend
+            'stat_friend': statistic_friend,
+            'text': text,
         })
 
     def post(self, request):

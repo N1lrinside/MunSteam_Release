@@ -1,7 +1,7 @@
 {% extends 'template_base.html' %}
 {% load static %}
 {% block head %}
-<link href="{% static 'css/statistic.css' %}" rel="stylesheet">
+<link href="{% static 'css/statistic_user.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
 Статистика по CS2
@@ -9,21 +9,7 @@
 
 {% block content %}
 <div class="container">
-    {% if user.check_auth and context %}
-    <form method="GET">
-        <div class="form-group">
-            <label for="friend">Выберите друга для сравнения статистики:</label>
-            <select id="friend" name="friend" class="form-control">
-                <option value="">--Выберите друга--</option>
-                {% for friend in friends.friends_info %}
-                    <option value="{{ friend.steamid }}" {% if friend.steamid == request.GET.friend %}selected{% endif %}>
-                        {{ friend.personaname }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Сравнить</button>
-    </form>
+    {% if statistic %}
     <div class="row mt-4">
         <div class="col-12">
             <h4 class="stats-heading">Статистика по CS2</h4>
@@ -38,61 +24,38 @@
                             <th>Разминировано бомб</th>
                             <th>Побед</th>
                             <th>Урон</th>
-                            <th>Деньги заработано</th>
+                            <th>Денег заработано</th>
                             <th>Победы в пистолетных раундах</th>
                             <th>МВП</th>
-                            <th>Победы в матчах</th>
+                            <th>Победы в мм</th>
                             <th>Матчи сыграно</th>
                         </tr>
                     </thead>
-                    <tbody>
+                     <tbody>
                         <tr>
-                            <td class="{% if stat.total_kills > stat_friend.total_kills %}highlight{% endif %}">{{ stat.total_kills }}</td>
-                            <td class="{% if stat.total_deaths > stat_friend.total_deaths %}highlight{% endif %}">{{ stat.total_deaths }}</td>
-                            <td class="{% if stat.total_time_played > stat_friend.total_time_played %}highlight{% endif %}">{{ stat.time_played_hours }}</td>
-                            <td class="{% if stat.total_planted_bombs > stat_friend.total_planted_bombs %}highlight{% endif %}">{{ stat.total_planted_bombs }}</td>
-                            <td class="{% if stat.total_defused_bombs > stat_friend.total_defused_bombs %}highlight{% endif %}">{{ stat.total_defused_bombs }}</td>
-                            <td class="{% if stat.total_wins > stat_friend.total_wins %}highlight{% endif %}">{{ stat.total_wins }}</td>
-                            <td class="{% if stat.total_damage_done > stat_friend.total_damage_done %}highlight{% endif %}">{{ stat.total_damage_done }}</td>
-                            <td class="{% if stat.total_money_earned  > stat_friend.total_money_earned  %}highlight{% endif %}">{{ stat.money_earned }}</td>
-                            <td class="{% if stat.total_wins_pistolround > stat_friend.total_wins_pistolround %}highlight{% endif %}">{{ stat.total_wins_pistolround }}</td>
-                            <td class="{% if stat.total_mvps > stat_friend.total_mvps %}highlight{% endif %}">{{ stat.total_mvps }}</td>
-                            <td class="{% if stat.total_matches_won > stat_friend.total_matches_won %}highlight{% endif %}">{{ stat.total_matches_won }}</td>
-                            <td class="{% if stat.total_matches_played > stat_friend.total_matches_played %}highlight{% endif %}">{{ stat.total_matches_played }}</td>
+                            <td>{{ statistic.total_kills }}</td>
+                            <td>{{ statistic.total_deaths }}</td>
+                            <td>{{ statistic.time_played_hours }}</td>
+                            <td>{{ statistic.total_planted_bombs }}</td>
+                            <td>{{ statistic.total_defused_bombs }}</td>
+                            <td>{{ statistic.total_wins }}</td>
+                            <td>{{ statistic.total_damage_done }}</td>
+                            <td>{{ statistic.money_earned }}</td>
+                            <td>{{ statistic.total_wins_pistolround }}</td>
+                            <td>{{ statistic.total_mvps }}</td>
+                            <td>{{ statistic.total_matches_won }}</td>
+                            <td>{{ statistic.total_matches_played }}</td>
                         </tr>
                     </tbody>
-                    {% if check %}
-                    <tbody>
-                        <tr>
-                            <td class="{% if stat_friend.total_kills > stat.total_kills %}highlight{% endif %}">{{ stat_friend.total_kills }}</td>
-                            <td class="{% if stat_friend.total_deaths > stat.total_deaths %}highlight{% endif %}">{{ stat_friend.total_deaths }}</td>
-                            <td class="{% if stat_friend.total_time_played > stat.total_time_played %}highlight{% endif %}">{{ stat_friend.time_played_hours }}</td>
-                            <td class="{% if stat_friend.total_planted_bombs > stat.total_planted_bombs %}highlight{% endif %}">{{ stat_friend.total_planted_bombs }}</td>
-                            <td class="{% if stat_friend.total_defused_bombs > stat.total_defused_bombs %}highlight{% endif %}">{{ stat_friend.total_defused_bombs }}</td>
-                            <td class="{% if stat_friend.total_wins > stat.total_wins %}highlight{% endif %}">{{ stat_friend.total_wins }}</td>
-                            <td class="{% if stat_friend.total_damage_done > stat.total_damage_done %}highlight{% endif %}">{{ stat_friend.total_damage_done }}</td>
-                            <td class="{% if stat_friend.total_money_earned > stat.total_money_earned  %}highlight{% endif %}">{{ stat_friend.money_earned }}</td>
-                            <td class="{% if stat_friend.total_wins_pistolround > stat.total_wins_pistolround %}highlight{% endif %}">{{ stat_friend.total_wins_pistolround }}</td>
-                            <td class="{% if stat_friend.total_mvps > stat.total_mvps %}highlight{% endif %}">{{ stat_friend.total_mvps }}</td>
-                            <td class="{% if stat_friend.total_matches_won > stat.total_matches_won %}highlight{% endif %}">{{ stat_friend.total_matches_won }}</td>
-                            <td class="{% if stat_friend.total_matches_played > stat.total_matches_played %}highlight{% endif %}">{{ stat_friend.total_matches_played }}</td>
-                        </tr>
-                    </tbody>
-                    {% endif %}
                 </table>
             </div>
         </div>
     </div>
-    {% elif user.check_auth %}
+    {% else %}
         <div class="alert alert-info" role="alert">
             <p>У вас нет CS2</p>
             <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
             <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт стим</a>
-        </div>
-    {% else %}
-        <div class="alert alert-info" role="alert">
-            <p>Пожалуйста, привяжите аккаунт стим, чтобы просмотреть статистику.</p>
-            <a href="{% url 'user:profile' %}" class="btn btn-primary">Профиль</a>
         </div>
     {% endif %}
 </div>

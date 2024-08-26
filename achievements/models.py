@@ -5,8 +5,9 @@ from user.models import SteamUser
 
 
 class GameAchievement(models.Model):
-    user_steam_id = models.CharField(max_length=50, unique=True, null=True)
+    user_steam_id = models.CharField(max_length=50, null=True)
     app_id = models.CharField(max_length=50, null=True)
+    game_name = models.CharField(max_length=100, null=True)
     achievements = models.JSONField()
 
     def __str__(self):

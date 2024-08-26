@@ -24,7 +24,7 @@ def get_friend_info(steam_id):
         return {k: v for k, v in info.items() if k not in keys}
 
 
-def get_friends(user, steam_id):
+def get_friends(steam_id):
     data = get_friends_list(steam_id)
     info_friends = []
     if data:  # Если есть друзья

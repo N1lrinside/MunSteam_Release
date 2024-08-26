@@ -1,9 +1,7 @@
 {% extends 'template_base.html' %}
 {% block title %}Достижения{% endblock %}
 {% block content %}
-{% if user.is_authenticated and user.check_auth and user.check_status %}
-    <h1 class="mt-5 mb-5 fs-3"> Топ 16 игр по кол-ву часов </h1>
-
+<h1 class="mt-5 mb-5 fs-3"> Топ 16 игр по кол-ву часов </h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for game in game_list %}
           <div class="col">
@@ -14,18 +12,6 @@
               </div>
             </div>
           </div>
-        {% endfor  %}
+        {% endfor %}
     </div>
-    {% elif not user.check_status %}
-    <div class="alert alert-info" role="alert">
-            <p>Ваш профиль закрыт</p>
-            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
-            <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт стим</a>
-    </div>
-    {% else %}
-        <div class="alert alert-info" role="alert">
-            <p>Пожалуйста, привяжите аккаунт стим, чтобы просмотреть статистику.</p>
-            <a href="{% url 'user:profile' %}" class="btn btn-primary">Профиль</a>
-        </div>
-    {% endif %}
 {% endblock %}
