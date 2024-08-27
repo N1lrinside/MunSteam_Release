@@ -28,21 +28,24 @@ def get_friends(steam_id):
     data = get_friends_list(steam_id)
     info_friends = []
     if data:  # Если есть друзья
-        if UserFriends.objects.filter(steam_id_user=steam_id).exists():  # Если уже есть информация о друзьях
-            info_friends = UserFriends.objects.filter(steam_id_user=steam_id).get()
-        else:  # Если нет информации о друзьях
-            for i in data:
-                info_friend = get_friend_info(i['steamid'])
-                info_friend.update({'friend_since': i['friend_since']})
-                info_friends.append(info_friend)
-            UserFriends.objects.update_or_create(
-                steam_id_user=steam_id,
-                defaults={
-                    'friends_info': info_friends,
-                }
-            )
-        text = 'Друзья получены'
-    else:  # Если нет друзей
-        text = 'У вас нет друзей'
+        for i in data:
+            info_friend = get_friend_info(i['steamid'])
+            info_friend.update({'friend_since': i['friend_since']})
+            info_friends.append(info_friend)
+        UserFriends.objects.update_or_create(
+            steam_id_user=steam_id,
+            defaults={
+                'friends_info': info_friends,
+            }
+        )
 
-    return info_friends, text
+
+def get_info_friends(steam_id):
+    data = get_friends_list(steam_id)
+    if data:
+        info_friend = UserFriends.objects.filter(steam_id_user=steam_id).get()
+        text = 'Друзья получены'
+    else:
+        info_friend = []
+        text = 'У вас нет друзей'
+    return info_friend, text

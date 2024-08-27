@@ -33,7 +33,7 @@ def get_achiviements_game(steam_id, app_id=578080):
         return False
 
 
-def get_achievements(steam_id, app_id):
+def get_achievements(steam_id, app_id, game_name):
     if exists_achievements(steam_id, app_id):
         achievements, count_achievements, count_achieved, percentage = exists_achievements(steam_id, app_id)
     else:
@@ -44,6 +44,7 @@ def get_achievements(steam_id, app_id):
         GameAchievement.objects.update_or_create(
                 user_steam_id=steam_id,
                 app_id=app_id,
+                game_name=game_name,
                 achievements=achievements
         )
     return achievements, count_achievements, count_achieved, percentage

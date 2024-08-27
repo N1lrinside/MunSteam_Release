@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from .models import GameUser
-from .service import get_achievements
+from .service import get_achievements, games_user
 from user.utils import SteamURLRequiredMixin
 
 
@@ -27,17 +27,22 @@ class GameAchievementView(SteamURLRequiredMixin, ListView):
             ]
         return context
 
+    def post(self, request):
+        pass
+
 
 class AchievementsView(SteamURLRequiredMixin, View):
 
     def get(self, request, app_id):
         user = request.user
-        achievements, count_achievements, count_achieved, percentage = get_achievements(user.steam_id, app_id)
+        game_name = games_user(user.steam_id)[app_id]
+        achievements, count_achievements, count_achieved, percentage = get_achievements(user.steam_id, app_id, game_name)
         return render(request, 'achievement.html', context={
             'achievements': achievements,
             'count_achievements': count_achievements,
             'count_achieved': count_achieved,
-            'percentage':  percentage
+            'percentage':  percentage,
+            'game_name': game_name,
         })
 
     def post(self, request):

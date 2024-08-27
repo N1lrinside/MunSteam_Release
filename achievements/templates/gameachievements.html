@@ -1,6 +1,7 @@
 {% extends 'template_base.html' %}
 {% block title %}Достижения{% endblock %}
 {% block content %}
+{% if game_list %}
 <h1 class="mt-5 mb-5 fs-3"> Топ 16 игр по кол-ву часов </h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for game in game_list %}
@@ -14,4 +15,11 @@
           </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+            <p>У вас нет игр, по которым можно посмотреть статистику</p>
+            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+            <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт стим</a>
+        </div>
+{% endif %}
 {% endblock %}

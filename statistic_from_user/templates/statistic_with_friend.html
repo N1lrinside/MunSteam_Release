@@ -58,11 +58,6 @@
                 <span class="{% if stat_friend.total_defused_bombs > stat.total_defused_bombs %}highlight{% endif %}">{{ stat_friend.total_defused_bombs }}</span>
             </div>
             <div class="stat">
-                <span class="{% if stat.total_wins > stat_friend.total_wins %}highlight{% endif %}">{{ stat.total_wins }}</span>
-                <span>Побед</span>
-                <span class="{% if stat_friend.total_wins < stat.total_wins %}highlight{% endif %}">{{ stat_friend.total_wins }}</span>
-            </div>
-            <div class="stat">
                 <span class="{% if stat.total_damage_done > stat_friend.total_damage_done %}highlight{% endif %}">{{ stat.total_damage_done }}</span>
                 <span>Урон</span>
                 <span class="{% if stat_friend.total_damage_done > stat.total_damage_done %}highlight{% endif %}">{{ stat_friend.total_damage_done }}</span>
@@ -105,7 +100,7 @@
     </div>
     {% elif request.GET.friend and not stat_friend %}
         <div class="alert alert-info" role="alert">
-            <p>У вашего друга нет статистики по CS2, выберите другого друга</p>
+            <p>У вашего друга нет статистики по CS2, либо у него закрытый аккаунт, выберите другого друга</p>
             <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
         </div>
     {% endif %}

@@ -11,7 +11,6 @@ class GameStats(models.Model):
     total_time_played = models.IntegerField(null=True)
     total_planted_bombs = models.IntegerField(null=True)
     total_defused_bombs = models.IntegerField(null=True)
-    total_wins = models.IntegerField(null=True)
     total_damage_done = models.IntegerField(null=True)
     total_money_earned = models.IntegerField(null=True)
     total_wins_pistolround = models.IntegerField(null=True)

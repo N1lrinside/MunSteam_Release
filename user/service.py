@@ -4,6 +4,9 @@ from datetime import datetime
 
 from django.conf import settings
 
+from achievements.models import GameUser
+from achievements.service import games_user
+from friends.service import get_friends
 from games.service import get_data_from_api
 from statistic_from_user.service import get_stats_in_game, check_game_on_account
 
@@ -14,14 +17,14 @@ def get_id(url):
     """
     Получение id профиля стим
     """
-    check_id = re.search(r'/id/', url)
+    check_id = re.search(r'https://steamcommunity.com/id/', url)
     if check_id:
         id_profile = re.search(r'/id/\w+', url).group()[4:]
         url = f'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/'
         response = get_data_from_api(url, steam_id=id_profile)
         id64 = response.get('response', {}).get('steamid', id)
     else:
-        id64 = re.search(r'/profiles/\d+', url).group()[10:]
+        id64 = re.search(r'https://steamcommunity.com/profiles/\d+', url).group()[36:]
     return id64
 
 
@@ -51,6 +54,14 @@ def get_data_user(steam_id):
                 ]
 
 
-def update_info_user(steam_id):
+def get_fullinfo_user(steam_id):
     if check_game_on_account(steam_id):
         get_stats_in_game(steam_id)
+    get_friends(steam_id)
+    try:
+        GameUser.objects.update_or_create(
+            user_steam_id=steam_id,
+            games=games_user(steam_id)
+        )
+    except KeyError:
+        pass

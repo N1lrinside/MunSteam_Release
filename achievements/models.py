@@ -11,7 +11,7 @@ class GameAchievement(models.Model):
     achievements = models.JSONField()
 
     def __str__(self):
-        return str(self.user_steam_id) + self.app_id
+        return self.user_steam_id + ' ' + self.game_name
 
 
 class GameUser(models.Model):

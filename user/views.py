@@ -35,11 +35,6 @@ class ProfileView(LoginRequiredMixin, View):
             user.personaname, user.avatarfull, user.personastate, user.profilestate = info_user[:4]
             user.communityvisibilitystate, user.gameextrainfo, user.createdacc_time, user.lastlogoff_time = info_user[4:]
             user.save()
-            if user.communityvisibilitystate == 3:
-                GameUser.objects.update_or_create(
-                    user_steam_id=steam_id,
-                    games=games_user(steam_id)
-                )
             return redirect('user:profile')
         context = {
             'form': form

@@ -36,6 +36,16 @@ class SteamUrlForm(forms.ModelForm):
             'profileurl': forms.TextInput(attrs={'style': 'width: 400px;'})
         }
 
+    def clean_profileurl(self):
+        url = self.cleaned_data.get('profileurl')
+        try:
+            steam_id = get_id(url)
+            if steam_id is None:
+                raise forms.ValidationError("Не удалось извлечь Steam ID из ссылки.")
+            return url
+        except AttributeError:
+            raise forms.ValidationError("Неверная ссылка")
+
 
 class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label="Старый пароль",
