@@ -29,6 +29,7 @@ class SteamUser(AbstractUser):
     createdacc_time = models.DateTimeField(null=True, blank=True)
     lastlogoff_time = models.DateTimeField(null=True, blank=True)
     last_update = models.DateField(null=True)
+    last_update_url = models.DateTimeField(null=True)
 
     def check_auth(self):
         if self.profileurl is None:
@@ -39,3 +40,11 @@ class SteamUser(AbstractUser):
         if self.communityvisibilitystate == 1:
             return False
         return True
+
+
+class UserRecentlyPlayedGames(models.Model):
+    user_steam_id = models.CharField(max_length=50, null=True)
+    app_id = models.CharField(max_length=10, null=True)
+    name = models.CharField(max_length=50, null=True)
+    playtime_2weeks = models.IntegerField(null=True)
+    img_icon_url = models.URLField()

@@ -4,27 +4,39 @@
   <head>
     <meta charset="utf-8">
     <title>Регистрация</title>
-    <link href="{% static 'css/register.css' %}"  rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
   </head>
   <body>
     <!-- Body of Form starts -->
-  	<div class="container">
-      <form method="post" autocomplete="on">
-		  {% csrf_token %}
-		  <input type="hidden" name="next" value="{{ next }}"/>
-		  <div class="form-error">{{ form.non_field_errors }}</div>
-		  {% for f in form %}
-		  <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-		  <div class="form-error">{{ f.errors }}</div>
-		  {% endfor %}
-    		<!---Submit Button------>
-    		<div class="box" style="background: #2d3e3f">
-    				<input type="Submit" name="Submit" class="submit" value="SUBMIT">
-    		</div>
-    		<!---Submit Button----->
-      </form>
-  </div>
-  <!--Body of Form ends--->
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form class="login" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    <div class="form-error">{{ form.non_field_errors }}</div>
+                    {% for f in form %}
+                    <div class="login__field">
+                        <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        {{ f }}
+                        <div class="form-error">{{ f.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <!---Submit Button------>
+                    <button class="button login__submit login__register">
+                    <span class="button__text">Зарегистрироваться</span>
+                    </button>
+                    <!---Submit Button----->
+                </form>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
+        </div>
+    </div>
+    <!--Body of Form ends--->
   </body>
 </html>

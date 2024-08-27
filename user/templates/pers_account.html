@@ -26,16 +26,14 @@
                             <p class="text-muted font-size-sm">Статус: {{ user.get_personastate_display }}</p>
                         {% endif %}
                         {% load tz %}
-{% if user.last_update == today %}
-    <button class="btn btn-outline-primary" disabled>Обновить данные</button>
-    <p class="text-muted">Вы уже обновляли данные сегодня. Попробуйте снова завтра.</p>
-{% else %}
-    <form method="post" action="{% url 'user:update_data' %}">
-        {% csrf_token %}
-        <button class="btn btn-outline-primary" type="submit">Обновить данные</button>
-    </form>
-{% endif %}
-
+                        {% if user.last_update == today %}
+                            <p class="text-muted">Вы уже обновляли данные сегодня. Попробуйте завтра.</p>
+                        {% else %}
+                            <form method="post" action="{% url 'user:update_data' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary" type="submit">Обновить данные</button>
+                            </form>
+                        {% endif %}
                       <button class="btn btn-primary" onclick="location.href='/user/logout'">Выйти</button>
                     </div>
                   </div>
@@ -78,8 +76,12 @@
                                         <strong>⚠ Ваш профиль закрыт.</strong> Доступ к множеству функций недоступен.
                                      </div>
                                 {% endif %}
+                            {% if can_detach %}
                                 <button type="submit" class="btn btn-primary mt-2">Открепить</button>
                                 </form>
+                            {% else %}
+                                <p class="text-muted">Вы уже открепляли аккаунт менее 3 часов назад. Пожалуйста, попробуйте позже. Последнее прикрепление {{ user.last_update_url }}</p>
+                            {% endif %}
                         {% else %}
 
                           <!-- Если у пользователя нет привязанного Steam URL, показываем форму -->

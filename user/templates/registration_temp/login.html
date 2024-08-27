@@ -4,33 +4,41 @@
 {% endblock %}
 {% block content %}
 <body>
-<div class="container">
-	<div class="screen">
-		<div class="screen__content">
-			<form class="login" method="post">
-				{% csrf_token %}
-				<input type="hidden" name="next" value="{{ next }}"/>
-				<div class="form-error">{{ form.non_field_errors }}</div>
-				{% for f in form %}
-				<p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-				<div class="row-form-errors">{{ f.errors }}</div>
-				{% endfor %}
-				<div class="links"> <a href="{% url 'user:password_reset' %}">Забыли пароль?</a></div>
-				<div class="links"> <a href="{% url 'user:register' %}">Зарегистрироваться</a></div>
-				<button class="button login__submit">
-					<span class="button__text">Войти</span>
-					<i class="button__icon fas fa-chevron-right"></i>
-				</button>
-			</form>
-
-		</div>
-		<div class="screen__background">
-			<span class="screen__background__shape screen__background__shape4"></span>
-			<span class="screen__background__shape screen__background__shape3"></span>
-			<span class="screen__background__shape screen__background__shape2"></span>
-			<span class="screen__background__shape screen__background__shape1"></span>
-		</div>
-	</div>
-</div>
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form class="login" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    <div class="form-error">{{ form.non_field_errors }}</div>
+                    {% for f in form %}
+                    <div class="login__field">
+                        <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        {{ f }}
+                        <div class="row-form-errors">{{ f.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <div class="login__actions">
+                        <div class="links">
+                            <a href="{% url 'user:password_reset' %}">Забыли пароль?</a>
+                        </div>
+                    </div>
+                    <button class="button login__submit">
+                        <span class="button__text">Войти</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>
+                </form>
+            <button class="button login__submit login__register" onclick="window.location.href='{% url 'user:register' %}'">
+                    <span class="button__text">Зарегистрироваться</span>
+                </button>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
+        </div>
+    </div>
 </body>
 {% endblock %}
