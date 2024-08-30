@@ -1,6 +1,7 @@
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, \
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path, reverse_lazy
+from rest_framework import routers
 
 from . import views
 
@@ -37,3 +38,8 @@ urlpatterns = [
     path('detach-steam/', views.DetachSteamView.as_view(), name='detach_steam'),
     path('update-time/', views.UpdateView.as_view(), name='update_data')
 ]
+
+router = routers.DefaultRouter()
+router.register(r'api/recentlygame', views.RecentlyGameView)
+
+urlpatterns += router.urls

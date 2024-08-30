@@ -1,9 +1,9 @@
-import requests
 import re
 from datetime import datetime
 
 from django.conf import settings
 
+from .models import UserRecentlyPlayedGames
 from achievements.models import GameUser
 from achievements.service import games_user
 from friends.service import get_friends
@@ -65,3 +65,20 @@ def get_fullinfo_user(steam_id):
         )
     except KeyError:
         pass
+
+
+def get_recently_games(steam_id):
+    """
+    Получение последней статистики пользователя за 2 недели
+    """
+    url = f'http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/'
+    data_api = get_data_from_api(url, steam_id=steam_id, count=5)
+    data = data_api.get('response', {}).get('games', [])
+    for game in data:
+        UserRecentlyPlayedGames.objects.update_or_create(
+            user_steam_id=steam_id,
+            app_id=game['appid'],
+            name=game['name'],
+            playtime_2weeks=game['playtime_2weeks'],
+            img_icon_url='https://media.steampowered.com/steamcommunity/public/images/apps/' + str(game['appid']) + '/' + game['img_icon_url'] + '.jpg',
+        )

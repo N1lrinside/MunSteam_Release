@@ -9,7 +9,8 @@ def get_id(steam_id):
     url = f'http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/'
     params = {
         'key': 'A841CD672B51AB7D6C82A7CDA8B28E86',
-        'count': 3,
+        'appid': 730,
+        'count': 5,
         'maxlength': 1000,
         'format': 'json',
         'include_appinfo': True,

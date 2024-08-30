@@ -7,10 +7,13 @@ from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .forms import RegisterForm, LoginUserForm, SteamUrlForm, UserPasswordChangeForm
-from .service import get_id, get_data_user
+from .service import get_id, get_data_user, get_recently_games
 from .tasks import update_info
+from .models import UserRecentlyPlayedGames
+from .serializers import RecentlyGamesSerializer
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -18,6 +21,10 @@ class ProfileView(LoginRequiredMixin, View):
 
     def get(self, request):
         user = request.user
+        if UserRecentlyPlayedGames.objects.filter(user_steam_id=user.steam_id).exists():
+            games = UserRecentlyPlayedGames.objects.filter(user_steam_id=user.steam_id).order_by('-playtime_2weeks')
+        else:
+            games = []
         if bool(user.last_update_url):
             time_diff = datetime.now(pytz.timezone('Europe/Moscow')) - user.last_update_url
             can_detach = time_diff >= timedelta(hours=3)
@@ -25,13 +32,15 @@ class ProfileView(LoginRequiredMixin, View):
                 'form': SteamUrlForm(),
                 'today': date.today(),
                 'can_detach': can_detach,
-                'time_diff': time_diff
+                'time_diff': time_diff,
+                'games': games,
             }
         else:
             context = {
                 'form': SteamUrlForm(),
                 'today': date.today(),
-                'can_detach': True
+                'can_detach': True,
+                'games': games,
             }
         return render(request, self.template_name, context=context)
 
@@ -48,6 +57,7 @@ class ProfileView(LoginRequiredMixin, View):
             update_info.delay(steam_id)
             user.last_update_url = datetime.now()
             user.last_update = None
+            get_recently_games(steam_id)
             user.save()
             return redirect('user:profile')
         context = {
@@ -124,3 +134,8 @@ class UpdateView(LoginRequiredMixin, View):
         user.last_update = date.today()
         user.save()
         return redirect('user:profile')
+
+
+class RecentlyGameView(ReadOnlyModelViewSet):
+    queryset = UserRecentlyPlayedGames.objects.all()
+    serializer_class = RecentlyGamesSerializer

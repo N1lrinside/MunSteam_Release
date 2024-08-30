@@ -28,9 +28,9 @@ def get_achiviements_game(steam_id, app_id=578080):
             ]
             return filtered_achievements
         except KeyError:
-            return False
+            return []
     else:
-        return False
+        return []
 
 
 def get_achievements(steam_id, app_id, game_name):
@@ -40,7 +40,7 @@ def get_achievements(steam_id, app_id, game_name):
         achievements = get_achiviements_game(steam_id, app_id)
         count_achievements = len(achievements)
         count_achieved = len([i for i in achievements if i['achieved']])
-        percentage = (count_achieved / count_achievements) * 100
+        percentage = (count_achieved / count_achievements) * 100 if count_achievements else 0
         GameAchievement.objects.update_or_create(
                 user_steam_id=steam_id,
                 app_id=app_id,
@@ -56,5 +56,5 @@ def exists_achievements(steam_id, app_id):
         achievements = achiv_exists.first().achievements
         count_achievements = len(achievements)
         count_achieved = len([i for i in achievements if i['achieved']])
-        percentage = (count_achieved / count_achievements) * 100
+        percentage = (count_achieved / count_achievements) * 100 if achievements else 0
         return [achievements, count_achievements, count_achieved, percentage]

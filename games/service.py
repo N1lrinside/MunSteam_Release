@@ -10,11 +10,11 @@ translator = Translator()
 steam_api_key = settings.API_KEY
 
 
-def get_data_from_api(url, app_id=730, steam_id=0):
+def get_data_from_api(url, app_id=730, steam_id=0, count=3):
     params = {
         'key': steam_api_key,
         'appid': app_id,
-        'count': 3,
+        'count': count,
         'maxlength': 1000,
         'format': 'json',
         'include_appinfo': True,
