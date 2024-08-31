@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Sum
 
 
 class SteamUser(AbstractUser):
@@ -48,6 +49,7 @@ class UserRecentlyPlayedGames(models.Model):
     name = models.CharField(max_length=50, null=True)
     playtime_2weeks = models.IntegerField(null=True)
     total_playtime_2weeks = models.IntegerField(null=True)
+    percentage = models.FloatField(null=True)
     img_icon_url = models.URLField()
 
     def __str__(self):
@@ -55,6 +57,9 @@ class UserRecentlyPlayedGames(models.Model):
 
     def playtime_2weeks_hours(self):
         return round(self.playtime_2weeks / 60, 1)
+
+    def total_playtime_2weeks_hours(self):
+        return round(self.total_playtime_2weeks / 60, 1)
 
     class Meta:
         unique_together = ('user_steam_id', 'app_id')

@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from django.conf import settings
+from django.db.models import Sum
 
 from .models import UserRecentlyPlayedGames
 from achievements.models import GameUser
@@ -78,7 +79,38 @@ def get_recently_games(steam_id):
         UserRecentlyPlayedGames.objects.update_or_create(
             user_steam_id=steam_id,
             app_id=game['appid'],
-            name=game['name'],
-            playtime_2weeks=game['playtime_2weeks'],
-            img_icon_url='https://media.steampowered.com/steamcommunity/public/images/apps/' + str(game['appid']) + '/' + game['img_icon_url'] + '.jpg',
+            defaults={
+                'name': game['name'],
+                'playtime_2weeks': game['playtime_2weeks'],
+                'img_icon_url': 'https://media.steampowered.com/steamcommunity/public/images/apps/' + str(
+                    game['appid']) + '/' + game['img_icon_url'] + '.jpg',
+            }
         )
+    total_playtime = \
+    UserRecentlyPlayedGames.objects.filter(user_steam_id=steam_id).aggregate(total=Sum('playtime_2weeks'))['total']
+
+    # Обновляем каждую запись, чтобы пересчитать процент
+    games = UserRecentlyPlayedGames.objects.filter(user_steam_id=steam_id)
+    for game in games:
+        if total_playtime > 0:  # Проверяем, чтобы избежать деления на ноль
+            percentage = (game.playtime_2weeks / total_playtime) * 100
+        else:
+            percentage = 0
+
+        game.total_playtime_2weeks = total_playtime
+        game.percentage = percentage
+        game.save(update_fields=['total_playtime_2weeks', 'percentage'])
+
+
+def detach_steam(user):
+    user.steam_id = None
+    user.personaname = 'Нет информации'
+    user.profileurl = None
+    user.avatarfull = 'https://bootdey.com/img/Content/avatar/avatar7.png'
+    user.personastate = None
+    user.profilestate = False
+    user.communityvisibilitystate = None
+    user.gameextrainfo = None
+    user.createdacc_time = None
+    user.lastlogoff_time = None
+    user.save()
