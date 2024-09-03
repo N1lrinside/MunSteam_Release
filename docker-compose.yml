@@ -16,7 +16,7 @@ services:
       - DB_USER=dbuser
       - DB_PASS=pass
     command: > 
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn MunSteam.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - database
 
@@ -82,6 +82,21 @@ services:
       - database
     entrypoint: celery
     command: -A MunSteam beat -l info
+
+  nginx:
+    build: ./nginx
+    container_name: munsteam_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./static:/static
+      - ./media:/media
+      - ./uploads:/uploads
+      - ./nginx:/etc/nginx/conf.d/:ro
+    depends_on:
+      - web-app
 
 
 volumes:
