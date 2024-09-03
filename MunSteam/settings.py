@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['munsteam.ru', 'www.munsteam.ru', '127.0.0.1']
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
 API_KEY = os.environ.get('STEAM_API')
@@ -96,6 +96,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'user/../static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -109,10 +112,6 @@ CACHES = {
             'db': '1',
         },
     }
-}
-
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda _request: DEBUG,
 }
 
 AUTHENTICATION_BACKENDS = [

@@ -9,9 +9,13 @@
 {% block content %}
 <div class="game-card">
     <div class="game-header">
-        <img src="{{ game.url_image }}" alt="{{ game.name }} cover image" class="game-cover">
+        <a href="{{ game.get_steam_url }}" target="_blank">
+            <img src="{{ game.url_image }}" alt="{{ game.name }} cover image" class="game-cover">
+        </a>
         <div class="game-info">
-            <h1 class="game-title">{{ game.name }}</h1>
+            <a href="{{ game.get_steam_url }}" target="_blank" class="game-title-link">
+                <h1 class="game-title">{{ game.name }}</h1>
+            </a>
             <p class="game-genre">Жанр: {{ game.genre }}</p>
             <p class="game-release">Дата выхода: {{ game.release_date }}</p>
             <p class="game-price">Цена: {{ game.price }}</p>

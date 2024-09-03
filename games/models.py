@@ -27,5 +27,8 @@ class GameSteam(models.Model):
     def get_update_time(self):
         return str(int(self.minutes_update[2:4])) + ' минут назад'
 
+    def get_steam_url(self):
+        return 'https://store.steampowered.com/app/' + self.app_id
+
     class Meta:
         verbose_name = 'GameSteam'

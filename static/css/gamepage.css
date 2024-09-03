@@ -95,3 +95,12 @@
     font-size: 1em;
     line-height: 1.6;
 }
+
+.game-title-link {
+    text-decoration: none;
+    color: black;
+}
+
+.game-title-link:hover {
+    color: darkcyan;
+}

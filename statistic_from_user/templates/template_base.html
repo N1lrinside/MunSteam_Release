@@ -74,12 +74,12 @@
           {% if user.is_authenticated %}
           <ul class="navbar-nav ms-auto d-flex align-items-center">
             <li class="nav-item">
-            <a class="nav-link navbar-brand" href="/user/profile">{{ user.username }}</a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-sm btn-danger me-2" href="{% url 'user:logout' %}" type="button">Выйти</a>
-    </li>
-</ul>
+                <a class="nav-link navbar-brand" href="/user/profile"><img src="{{ user.avatarfull }}" alt="useravatar" width="30" height="30"> {{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-sm btn-danger me-2" href="{% url 'user:logout' %}" type="button">Выйти</a>
+            </li>
+        </ul>
 
       {% else %}
           <ul class="navbar-nav ms-auto">
@@ -100,13 +100,37 @@
 
 <div class="container">
   <footer class="py-3 my-4">
-      <p class="text-center nav-item nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">🎮 MunSteam by Зорин Данила</p>
-      <ul class="nav justify-content-center pb-1 mb-1">
-<!--          <li class="nav-item nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">👾 easyoffer by Кивайко Алексей</li>-->
-          <li class="nav-item"><a href="https://t.me/n1lrin" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-telegram"></i></a></li>
-          <li class="nav-item"><a href="https://github.com/N1lrinside" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-github"></i></a></li>
-          <li class="nav-item"><a href="https://www.linkedin.com/in/danila-zorin-203770308/" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6"><i class="bi bi-linkedin"></i></a></li>
-          </ul>
+    <p class="text-center nav-item nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">
+      🎮 MunSteam by Данила Артёмович
+    </p>
+    <ul class="nav justify-content-center pb-1 mb-1">
+      <li class="nav-item">
+        <a href="https://t.me/n1lrin" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">
+          <i class="bi bi-telegram"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/N1lrinside" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">
+          <i class="bi bi-github"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="https://www.linkedin.com/in/danila-zorin-203770308/" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">
+          <i class="bi bi-linkedin"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="https://www.donationalerts.com/r/munsteam" target="_blank" class="nav-link px-2 text-body-secondary text-decoration-none text-reset fs-6">
+          <!-- Donationalerts Icon -->
+          <img src="{% static 'img/DonationAlerts Logo.png' %}" alt="Donationalerts" width="24" height="24">
+        </a>
+      </li>
+    </ul>
+    <div class="text-center">
+      <a href="https://steamcommunity.com/" target="_blank">
+        <img src="https://community.akamai.steamstatic.com/public/images/signinthroughsteam/sits_01.png" width="180" height="35" border="0" alt="Sign in through Steam">
+      </a>
+    </div>
   </footer>
 </div>
 </html>

@@ -15,7 +15,7 @@ services:
       - DB_NAME=dbname
       - DB_USER=dbuser
       - DB_PASS=pass
-    command: >
+    command: > 
       sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - database
