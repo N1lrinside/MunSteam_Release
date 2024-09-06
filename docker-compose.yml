@@ -95,14 +95,9 @@ services:
       - ./media:/media
       - ./uploads:/uploads
       - ./nginx:/etc/nginx/conf.d/:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - web-app
 
-
 volumes:
   db_data:
-
-
-
-
-

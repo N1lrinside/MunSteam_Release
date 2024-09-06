@@ -1,0 +1,62 @@
+.comparison-container {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.comparison-form {
+    margin-bottom: 20px;
+}
+
+.comparison-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-image: linear-gradient(136deg, #1b1f23, #3a4755);
+
+
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.player-profile {
+    text-align: center;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.stats-comparison {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.stats-comparison h4 {
+    margin-bottom: 20px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 1.2rem;
+}
+
+.stat span {
+    flex: 1;
+    text-align: center;
+}
+
+.stat span.highlight {
+    color: #b3d4fc;; /* Green color for the highlight */
+    font-weight: bold;
+}
+
+.full-comparison {
+    margin-top: 20px;
+}

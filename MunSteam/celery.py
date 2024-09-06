@@ -22,21 +22,6 @@ app.conf.beat_schedule = {
     },
     'update_news': {
         'task': 'games.tasks.get_news_about_game',
-        'schedule': crontab(day_of_month='*/3')
+        'schedule': crontab(day_of_month='*/3', hour=0, minute=0)
     }
 }
-
-'''nginx:
-    build: ./nginx
-    container_name: munsteam_nginx
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./static:/static
-      - ./media:/media
-      - ./uploads:/uploads
-      - ./nginx:/etc/nginx/conf.d/:ro
-    depends_on:
-      - web-app'''

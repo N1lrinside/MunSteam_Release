@@ -1,0 +1,17 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/statistic_user.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Статистика по CS2
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <h1>404 - Страница не найдена</h1>
+        <p>Извините, но страница, которую вы ищете, не существует.</p>
+        <p>Возможно, она была перемещена или удалена.</p>
+        <p>Вернуться на <a href="{% url 'games:main' %}">главную</a> или перейдите в <a href="{% url 'user:profile' %}">свой профиль</a>.</p>
+</div>
+{% endblock %}

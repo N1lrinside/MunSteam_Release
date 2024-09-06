@@ -1,51 +1,65 @@
 {% extends 'template_base.html' %}
 {% load static %}
 {% block head %}
-<link href="{% static 'css/statistic_user.css' %}" rel="stylesheet">
+<link href="{% static 'css/comparison.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
 Статистика по CS2
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container comparison-container">
     {% if statistic %}
-    <div class="row mt-4">
-        <div class="col-12">
-            <h4 class="stats-heading">Статистика по CS2</h4>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Всего убийств</th>
-                            <th>Всего смертей</th>
-                            <th>Общее время игры</th>
-                            <th>Посажено бомб</th>
-                            <th>Разминировано бомб</th>
-                            <th>Урон</th>
-                            <th>Денег заработано</th>
-                            <th>Победы в пистолетных раундах</th>
-                            <th>МВП</th>
-                            <th>Победы в мм</th>
-                            <th>Матчи сыграно</th>
-                        </tr>
-                    </thead>
-                     <tbody>
-                        <tr>
-                            <td>{{ statistic.total_kills }}</td>
-                            <td>{{ statistic.total_deaths }}</td>
-                            <td>{{ statistic.time_played_hours }}</td>
-                            <td>{{ statistic.total_planted_bombs }}</td>
-                            <td>{{ statistic.total_defused_bombs }}</td>
-                            <td>{{ statistic.total_damage_done }}</td>
-                            <td>{{ statistic.money_earned }}</td>
-                            <td>{{ statistic.total_wins_pistolround }}</td>
-                            <td>{{ statistic.total_mvps }}</td>
-                            <td>{{ statistic.total_matches_won }}</td>
-                            <td>{{ statistic.total_matches_played }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="comparison-stats">
+        <div class="player-profile">
+            <img src="{{ user.avatarfull }}" alt="Ваш профиль" class="profile-image">
+            <h4>{{ user.personaname }}</h4>
+        </div>
+        <div class="stats-comparison">
+            <h4>Основные показатели</h4>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_kills }}</span>
+                <span>Всего убийств</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_deaths }}</span>
+                <span>Всего смертей</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.time_played_hours }}</span>
+                <span>Общее время игры</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_planted_bombs }}</span>
+                <span>Посажено бомб</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_defused_bombs }}</span>
+                <span>Разминировано бомб</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_damage_done }}</span>
+                <span>Урон</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.money_earned }}</span>
+                <span>Денег заработано</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_wins_pistolround }}</span>
+                <span>Победы в пистолетных раундах</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_mvps }}</span>
+                <span>МВП</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_matches_won }}</span>
+                <span>Победы в мм</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_matches_played }}</span>
+                <span>Матчей сыграно</span>
             </div>
         </div>
     </div>
