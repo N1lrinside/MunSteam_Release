@@ -1,0 +1,103 @@
+version: "3.12"
+
+services:
+  web-app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
+    command: > 
+      sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn MunSteam.wsgi:application --bind 0.0.0.0:8000"
+    depends_on:
+      - database
+
+
+  database:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=dbname
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=pass
+    env_file:
+      - ./.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+
+  redis:
+    image: redis:7.0.5
+    hostname: redis
+
+  worker:
+    build: .
+    hostname: worker
+    entrypoint: celery
+    command: -A MunSteam worker --loglevel=info
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
+
+  flower:
+    build:
+      context: .
+    hostname: flower
+    entrypoint: celery
+    command: -A MunSteam flower
+    volumes:
+      - ./:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
+
+  beat:
+    build: .
+    volumes:
+      - ./:/app
+    depends_on:
+      - redis
+      - worker
+      - database
+    entrypoint: celery
+    command: -A MunSteam beat -l info
+
+  nginx:
+    build: ./nginx
+    container_name: munsteam_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./static:/static
+      - ./media:/media
+      - ./uploads:/uploads
+      - ./nginx:/etc/nginx/conf.d/:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - web-app
+
+volumes:
+  db_data:

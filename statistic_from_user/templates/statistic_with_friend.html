@@ -1,0 +1,115 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/comparison.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Сравнение статистики
+{% endblock %}
+
+{% block content %}
+<div class="container comparison-container">
+    {% if stat %}
+    <form method="GET" class="comparison-form">
+        <div class="form-group">
+            <label for="friend">Выберите друга для сравнения статистики:</label>
+            <select id="friend" name="friend" class="form-control">
+                <option value="">--Выберите друга--</option>
+                {% for friend in friends.friends_info %}
+                    <option value="{{ friend.steamid }}" {% if friend.steamid == request.GET.friend %}selected{% endif %}>
+                        {{ friend.personaname }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Сравнить</button>
+    </form>
+    {% if request.GET.friend and stat_friend %}
+    <div class="comparison-stats">
+        <div class="player-profile">
+            <img src="{{ user.avatarfull }}" alt="Ваш профиль" class="profile-image">
+            <h4>{{ user.personaname }}</h4>
+        </div>
+        <div class="stats-comparison">
+            <h4>Основные показатели</h4>
+            <div class="stat">
+                <span class="{% if stat.total_kills > stat_friend.total_kills %}highlight{% endif %}">{{ stat.total_kills }}</span>
+                <span>Всего убийств</span>
+                <span class="{% if stat_friend.total_kills > stat.total_kills %}highlight{% endif %}">{{ stat_friend.total_kills }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_deaths < stat_friend.total_deaths %}highlight{% endif %}">{{ stat.total_deaths }}</span>
+                <span>Всего смертей</span>
+                <span class="{% if stat_friend.total_deaths < stat.total_deaths %}highlight{% endif %}">{{ stat_friend.total_deaths }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_time_played > stat_friend.total_time_played %}highlight{% endif %}">{{ stat.time_played_hours }}</span>
+                <span>Общее время игры</span>
+                <span class="{% if stat_friend.total_time_played > stat.total_time_played %}highlight{% endif %}">{{ stat_friend.time_played_hours }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_planted_bombs > stat_friend.total_planted_bombs %}highlight{% endif %}">{{ stat.total_planted_bombs }}</span>
+                <span>Посажено бомб</span>
+                <span class="{% if stat_friend.total_planted_bombs > stat.total_planted_bombs %}highlight{% endif %}">{{ stat_friend.total_planted_bombs }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_defused_bombs > stat_friend.total_defused_bombs %}highlight{% endif %}">{{ stat.total_defused_bombs }}</span>
+                <span>Разминировано бомб</span>
+                <span class="{% if stat_friend.total_defused_bombs > stat.total_defused_bombs %}highlight{% endif %}">{{ stat_friend.total_defused_bombs }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_damage_done > stat_friend.total_damage_done %}highlight{% endif %}">{{ stat.total_damage_done }}</span>
+                <span>Урон</span>
+                <span class="{% if stat_friend.total_damage_done > stat.total_damage_done %}highlight{% endif %}">{{ stat_friend.total_damage_done }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_money_earned > stat_friend.total_money_earned %}highlight{% endif %}">{{ stat.money_earned }}</span>
+                <span>Денег заработано</span>
+                <span class="{% if stat_friend.total_money_earned > stat.total_money_earned %}highlight{% endif %}">{{ stat_friend.money_earned }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_wins_pistolround > stat_friend.total_wins_pistolround %}highlight{% endif %}">{{ stat.total_wins_pistolround }}</span>
+                <span>Победы в пистолетных раундах</span>
+                <span class="{% if stat_friend.total_wins_pistolround > stat.total_wins_pistolround %}highlight{% endif %}">{{ stat_friend.total_wins_pistolround }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_mvps > stat_friend.total_mvps %}highlight{% endif %}">{{ stat.total_mvps }}</span>
+                <span>МВП</span>
+                <span class="{% if stat_friend.total_mvps > stat.total_mvps %}highlight{% endif %}">{{ stat_friend.total_mvps }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_matches_won > stat_friend.total_matches_won %}highlight{% endif %}">{{ stat.total_matches_won }}</span>
+                <span>Победы в мм</span>
+                <span class="{% if stat_friend.total_matches_won > stat.total_matches_won %}highlight{% endif %}">{{ stat_friend.total_matches_won }}</span>
+            </div>
+            <div class="stat">
+                <span class="{% if stat.total_matches_played > stat_friend.total_matches_played %}highlight{% endif %}">{{ stat.total_matches_played }}</span>
+                <span>Матчей сыграно</span>
+                <span class="{% if stat_friend.total_matches_played > stat.total_matches_played %}highlight{% endif %}">{{ stat_friend.total_matches_played }}</span>
+            </div>
+            <!-- Добавьте другие статистики аналогично -->
+        </div>
+        {% for friend in friends.friends_info %}
+            {% if friend.steamid == request.GET.friend %}
+                <div class="player-profile">
+                    <img src="{{ friend.avatarfull }}" alt="Профиль друга" class="profile-image">
+                    <h4>{{ friend.personaname }}</h4>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% elif request.GET.friend and not stat_friend %}
+        <div class="alert alert-info" role="alert">
+            <p>У вашего друга нет статистики по CS2, либо у него закрытый аккаунт, выберите другого друга</p>
+            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+        </div>
+    {% endif %}
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <p>У вас нет данных по CS2</p>
+            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+            <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт Steam</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

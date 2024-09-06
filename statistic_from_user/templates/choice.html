@@ -1,0 +1,23 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/statistic.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Статистика
+{% endblock %}
+
+{% block content %}
+<div class="container text-center" style="margin-top: 50px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <a href="{% url 'statistic_ur' %}" class="btn btn-primary btn-lg btn-block mb-3">Посмотреть вашу статистику</a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <a href="{% url 'statistic_with_friend' %}" class="btn btn-secondary btn-lg btn-block">Сравнить вашу статистику с другом</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

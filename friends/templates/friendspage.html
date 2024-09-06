@@ -1,0 +1,27 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block title %}Список друзей{% endblock %}
+{% block head %}
+<link href="{% static 'css/friendslist.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    {% if friends_info %}
+        <h1 class="mt-5 mb-5 fs-3">Друзья</h1>
+        <div class="friends-grid">
+            {% for friend in friends_info.friends_info %}
+                    <div class="friend-card">
+                    <img src="{{ friend.avatarfull }}" alt="{{ friend.personaname }}'s Avatar" class="friend-avatar">
+                    <div class="friend-details">
+                        <h2><a href="{{ friend.profileurl }}">{{ friend.personaname }}</a></h2>
+                        <p>Друзья с: {{ friend.friend_since }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <p>{{ text }}</p>
+            <a href="{% url 'user:profile' %}" class="btn btn-primary">Профиль</a>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

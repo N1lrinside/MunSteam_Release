@@ -1,0 +1,10 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block title %}У вас закрытый аккаунт{% endblock %}
+{% block content %}
+    <div class="alert alert-info" role="alert">
+        <p>У вас закрытый профиль</p>
+        <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+        <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт стим</a>
+    </div>
+{% endblock %}

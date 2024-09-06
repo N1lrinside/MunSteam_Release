@@ -1,0 +1,74 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/comparison.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Статистика по CS2
+{% endblock %}
+
+{% block content %}
+<div class="container comparison-container">
+    {% if statistic %}
+    <div class="comparison-stats">
+        <div class="player-profile">
+            <img src="{{ user.avatarfull }}" alt="Ваш профиль" class="profile-image">
+            <h4>{{ user.personaname }}</h4>
+        </div>
+        <div class="stats-comparison">
+            <h4>Основные показатели</h4>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_kills }}</span>
+                <span>Всего убийств</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_deaths }}</span>
+                <span>Всего смертей</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.time_played_hours }}</span>
+                <span>Общее время игры</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_planted_bombs }}</span>
+                <span>Посажено бомб</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_defused_bombs }}</span>
+                <span>Разминировано бомб</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_damage_done }}</span>
+                <span>Урон</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.money_earned }}</span>
+                <span>Денег заработано</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_wins_pistolround }}</span>
+                <span>Победы в пистолетных раундах</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_mvps }}</span>
+                <span>МВП</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_matches_won }}</span>
+                <span>Победы в мм</span>
+            </div>
+            <div class="stat">
+                <span class="highlight">{{ statistic.total_matches_played }}</span>
+                <span>Матчей сыграно</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <p>У вас нет CS2</p>
+            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+            <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт стим</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

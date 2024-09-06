@@ -1,0 +1,17 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/statistic_user.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Привяжите аккаунт стим
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="alert alert-info" role="alert">
+        <p>Пожалуйста, привяжите аккаунт стим, чтобы просмотреть информацию.</p>
+        <a href="{% url 'user:profile' %}" class="btn btn-primary">Профиль</a>
+    </div>
+</div>
+{% endblock %}

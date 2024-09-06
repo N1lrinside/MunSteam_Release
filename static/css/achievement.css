@@ -1,0 +1,69 @@
+.achievement-summary {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-summary h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #343a40;
+}
+
+.achievement-summary p {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.achievements {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Отображение по 4 достижения в ряд */
+    gap: 20px;
+    margin-top: 40px; /* Добавляет отступ сверху от меню */
+    padding: 20px;
+}
+
+.achievement {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.achievement.achieved {
+    background-color: #d4edda; /* Зеленый цвет для полученных достижений */
+}
+
+.achievement:not(.achieved) {
+    background-color: #e2e3e5; /* Более темный серый цвет для неполученных достижений */
+    opacity: 0.8; /* Немного уменьшает яркость для неполученных достижений */
+}
+
+.achievement h4 {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #343a40;
+}
+
+.achievement p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Делаем адаптивную верстку для экранов меньшего размера */
+@media (max-width: 768px) {
+    .achievement {
+        flex: 1 1 calc(50% - 20px); /* 2 в ряд на меньших экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .achievement {
+        flex: 1 1 100%; /* В один ряд на самых маленьких экранах */
+    }
+}
