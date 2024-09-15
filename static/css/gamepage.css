@@ -104,3 +104,123 @@
 .game-title-link:hover {
     color: darkcyan;
 }
+
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+    .game-card {
+        max-width: 100%;
+        margin: 10px;
+    }
+
+    .game-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-cover {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .game-info {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .game-title {
+        font-size: 1.5em;
+    }
+
+    .game-genre,
+    .game-release,
+    .game-price,
+    .game-players {
+        font-size: 0.9em;
+    }
+
+    .game-description {
+        padding: 15px;
+    }
+
+    .game-description h2 {
+        font-size: 1.2em;
+    }
+
+    .game-description p {
+        font-size: 0.9em;
+    }
+
+    .game-news {
+        padding: 15px;
+    }
+
+    .news-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .news-header h2 {
+        font-size: 1.2em;
+    }
+
+    .news-date {
+        font-size: 0.9em;
+    }
+
+    .news-item {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .news-title {
+        font-size: 1em;
+    }
+
+    .news-description {
+        font-size: 0.9em;
+    }
+}
+
+/* Стили для маленьких мобильных устройств */
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 1.2em;
+    }
+
+    .game-genre,
+    .game-release,
+    .game-price,
+    .game-players {
+        font-size: 0.8em;
+    }
+
+    .game-description h2 {
+        font-size: 1em;
+    }
+
+    .game-description p {
+        font-size: 0.8em;
+    }
+
+    .news-header h2 {
+        font-size: 1em;
+    }
+
+    .news-date {
+        font-size: 0.8em;
+    }
+
+    .news-item {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    .news-title {
+        font-size: 0.9em;
+    }
+
+    .news-description {
+        font-size: 0.8em;
+    }
+}

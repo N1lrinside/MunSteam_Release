@@ -33,6 +33,16 @@ def get_achiviements_game(steam_id, app_id=578080):
         return []
 
 
+def exists_achievements(steam_id, app_id):
+    achiv_exists = GameAchievement.objects.filter(user_steam_id=steam_id, app_id=app_id)
+    if achiv_exists.exists():
+        achievements = achiv_exists.first().achievements
+        count_achievements = len(achievements)
+        count_achieved = len([i for i in achievements if i['achieved']])
+        percentage = (count_achieved / count_achievements) * 100 if achievements else 0
+        return [achievements, count_achievements, count_achieved, percentage]
+
+
 def get_achievements(steam_id, app_id, game_name):
     if exists_achievements(steam_id, app_id):
         achievements, count_achievements, count_achieved, percentage = exists_achievements(steam_id, app_id)
@@ -49,12 +59,3 @@ def get_achievements(steam_id, app_id, game_name):
         )
     return achievements, count_achievements, count_achieved, percentage
 
-
-def exists_achievements(steam_id, app_id):
-    achiv_exists = GameAchievement.objects.filter(user_steam_id=steam_id, app_id=app_id)
-    if achiv_exists.exists():
-        achievements = achiv_exists.first().achievements
-        count_achievements = len(achievements)
-        count_achieved = len([i for i in achievements if i['achieved']])
-        percentage = (count_achieved / count_achievements) * 100 if achievements else 0
-        return [achievements, count_achievements, count_achieved, percentage]

@@ -1,9 +1,12 @@
 from django.views import View
 from django.shortcuts import render
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
 from friends.service import get_friends, get_info_friends
 from .service import ur_statistic, get_stats_in_game
 from .models import GameStats
+from .serializer import StatsSerializer
 from friends.models import UserFriends
 from user.utils import SteamURLRequiredMixin
 
@@ -52,3 +55,25 @@ class StatisticWithFriendsView(SteamURLRequiredMixin, View):
 
     def post(self, request):
         pass
+
+
+class StatisticView(ReadOnlyModelViewSet):
+    queryset = GameStats.objects.all()
+    serializer_class = StatsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_steam_id', ]
+
+    def get_queryset(self):
+        return self.queryset.exclude(
+            total_kills__isnull=True,
+            total_deaths__isnull=True,
+            total_time_played__isnull=True,
+            total_planted_bombs__isnull=True,
+            total_defused_bombs__isnull=True,
+            total_damage_done__isnull=True,
+            total_money_earned__isnull=True,
+            total_wins_pistolround__isnull=True,
+            total_mvps__isnull=True,
+            total_matches_won__isnull=True,
+            total_matches_played__isnull=True
+        )

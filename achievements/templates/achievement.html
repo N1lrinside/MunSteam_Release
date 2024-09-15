@@ -26,10 +26,10 @@
         {% endfor %}
     </div>
 {% else %}
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info" role="alert" style="margin-top: 30px;">
         <p>У этой игры нет достижений / Не удалось получить данные</p>
         <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
-        <a href="{% url 'user:profile' %}" class="btn btn-primary">Перейти в профиль</a>
+        <a href="{% url 'achievements_games' %}" class="btn btn-primary">Выбрать другую игру</a>
     </div>
 {% endif %}
 </body>

@@ -1,9 +1,14 @@
 from django.urls import path
+from rest_framework import routers
 
 from . import views
 
 urlpatterns = [
-    path('statistic/', views.ChoiseView.as_view(), name='statistic'),
-    path('statistic/ur/', views.YourStatisticView.as_view(), name='statistic_ur'),
-    path('statistic/with_friends', views.StatisticWithFriendsView.as_view(), name='statistic_with_friend'),
+    path('', views.ChoiseView.as_view(), name='statistic'),
+    path('ur/', views.YourStatisticView.as_view(), name='statistic_ur'),
+    path('with_friends/', views.StatisticWithFriendsView.as_view(), name='statistic_with_friend'),
 ]
+
+router = routers.DefaultRouter()
+router.register(r'api/user_statistic', views.StatisticView)
+urlpatterns += router.urls

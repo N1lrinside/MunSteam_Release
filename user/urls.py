@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, Passwo
 from django.urls import path, reverse_lazy
 from rest_framework import routers
 
-from . import views
+from . import views, api
 
 app_name = 'user'
 
@@ -40,6 +40,7 @@ urlpatterns = [
 ]
 
 router = routers.DefaultRouter()
-router.register(r'api/recentlygame', views.RecentlyGameView)
-
+router.register(r'api/recentlygame', api.RecentlyGameView)
+router.register(r'api/telegram', api.UserTelegramView)
+router.register(r'api/steam_info', api.UserInfoView)
 urlpatterns += router.urls

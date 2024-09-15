@@ -99,16 +99,16 @@
         {% endfor %}
     </div>
     {% elif request.GET.friend and not stat_friend %}
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info" role="alert" style="margin-top: 30px;">
             <p>У вашего друга нет статистики по CS2, либо у него закрытый аккаунт, выберите другого друга</p>
             <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
         </div>
     {% endif %}
     {% else %}
-        <div class="alert alert-info" role="alert">
-            <p>У вас нет данных по CS2</p>
+        <div class="alert alert-info" role="alert" style="margin-top: 30px;">
+            <p>У вас нет CS2/Не удалось получить данные, возможно они скрыты</p>
             <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
-            <a href="{% url 'user:profile' %}" class="btn btn-primary">Привязать другой аккаунт Steam</a>
+            <a href="{% url 'user:profile' %}?reset_url=10321dsacsa2" class="btn btn-primary">Привязать другой аккаунт Steam</a>
         </div>
     {% endif %}
 </div>

@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import GameUser
+from .models import GameUser, GameAchievement
 from .service import get_achievements, games_user
 from user.utils import SteamURLRequiredMixin
+from .serializer import GamesUserSerializer, AchievementsGameSerializer
 
 
 class GameAchievementView(SteamURLRequiredMixin, ListView):
@@ -47,3 +50,18 @@ class AchievementsView(SteamURLRequiredMixin, View):
 
     def post(self, request):
         pass
+
+
+#------------------API----------------------
+class GamesUserView(ReadOnlyModelViewSet):
+    queryset = GameUser.objects.all()
+    serializer_class = GamesUserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_steam_id',]
+
+
+class AchievementsUserView(ReadOnlyModelViewSet):
+    queryset = GameAchievement.objects.all()
+    serializer_class = AchievementsGameSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_steam_id', 'app_id']

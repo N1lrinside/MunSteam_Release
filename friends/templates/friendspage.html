@@ -18,9 +18,10 @@
                 </div>
             {% endfor %}
     {% else %}
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info" role="alert" style="margin-top: 30px;">
             <p>{{ text }}</p>
-            <a href="{% url 'user:profile' %}" class="btn btn-primary">Профиль</a>
+            <a href="{% url 'games:main' %}" class="btn btn-primary">На главную</a>
+            <a href="{% url 'user:profile' %}?reset_url=10321dsacsa2" class="btn btn-primary">Привязать другой аккаунт стим</a>
         </div>
     {% endif %}
     </div>

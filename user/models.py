@@ -63,3 +63,12 @@ class UserRecentlyPlayedGames(models.Model):
 
     class Meta:
         unique_together = ('user_steam_id', 'app_id')
+
+
+class TelegramUser(models.Model):
+    user = models.OneToOneField(SteamUser, on_delete=models.CASCADE)
+    telegram_id = models.CharField(max_length=50, null=True)
+
+    def __str__(self):
+        return self.user.personaname
+

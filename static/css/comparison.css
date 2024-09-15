@@ -60,3 +60,48 @@
 .full-comparison {
     margin-top: 20px;
 }
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+    .comparison-stats {
+        flex-direction: column; /* Изменяем направление на вертикальное для мобильных устройств */
+    }
+
+    .player-profile {
+        margin-bottom: 10px;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .stats-comparison h4 {
+        font-size: 1.1em;
+    }
+
+    .stat {
+        padding: 5px 0; /* Уменьшены отступы */
+        font-size: 0.9rem; /* Уменьшен размер шрифта */
+    }
+}
+
+@media (max-width: 480px) {
+    .comparison-container {
+        max-width: 100%; /* Расширяем на всю ширину */
+        padding: 5px; /* Уменьшены отступы */
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .stats-comparison h4 {
+        font-size: 1em;
+    }
+
+    .stat {
+        padding: 3px 0; /* Уменьшены отступы */
+        font-size: 0.8rem; /* Уменьшен размер шрифта */
+    }
+}

@@ -1,3 +1,4 @@
+/* Общие стили */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(90deg, #1CB5E0 0%, #000851 100%);
@@ -6,11 +7,13 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
+    overflow: hidden; /* Скрытие скроллов */
 }
 
 .container {
     max-width: 400px;
     width: 100%;
+    padding: 0 15px; /* Отступы по бокам для мобильных устройств */
 }
 
 .screen {
@@ -48,7 +51,7 @@ body {
 }
 
 .login input {
-    width: 95%;
+    width: 100%; /* Полная ширина на мобильных устройствах */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -153,4 +156,50 @@ body {
     top: 420px;
     right: -50px;
     border-radius: 60px;
+}
+
+/* Стили для адаптивности */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px; /* Уменьшенные отступы по бокам */
+    }
+
+    .screen {
+        padding: 30px 15px; /* Уменьшенные отступы внутри экрана */
+    }
+
+    .login__title {
+        font-size: 22px;
+    }
+
+    .login input {
+        font-size: 12px; /* Уменьшенный размер шрифта */
+    }
+
+    .button {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    .screen__background__shape1,
+    .screen__background__shape2,
+    .screen__background__shape3,
+    .screen__background__shape4 {
+        display: none; /* Скрываем фоновые элементы на меньших экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .login__title {
+        font-size: 20px;
+    }
+
+    .login input {
+        font-size: 11px; /* Еще меньший размер шрифта */
+    }
+
+    .button {
+        font-size: 12px;
+        padding: 8px 0; /* Уменьшенные отступы */
+    }
 }

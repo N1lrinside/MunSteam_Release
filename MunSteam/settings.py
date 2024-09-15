@@ -67,6 +67,10 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

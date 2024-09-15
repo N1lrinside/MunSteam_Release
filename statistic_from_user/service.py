@@ -1,4 +1,4 @@
-from django.conf import settings
+from django.db.models import Q
 
 from friends.models import UserFriends
 from .models import GameStats
@@ -38,7 +38,10 @@ def check_game_on_account(steam_id, app_id=730):
 
 
 def ur_statistic(steam_id):
-    if check_game_on_account(steam_id):
+    game_stats = GameStats.objects.filter(user_steam_id=steam_id).filter(
+    Q(total_kills__isnull=True) & Q(total_deaths__isnull=True) & Q(total_matches_played__isnull=True)
+).exists()
+    if not  game_stats and check_game_on_account(steam_id):
         statistic = GameStats.objects.filter(user_steam_id=steam_id).get()
     else:
         statistic = []

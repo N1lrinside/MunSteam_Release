@@ -1,10 +1,11 @@
+import pytz
 import re
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
 from django.conf import settings
 from django.db.models import Sum
 
-from .models import UserRecentlyPlayedGames
+from .models import UserRecentlyPlayedGames, TelegramUser
 from achievements.models import GameUser
 from achievements.service import games_user
 from friends.service import get_friends
@@ -55,19 +56,6 @@ def get_data_user(steam_id):
                 ]
 
 
-def get_fullinfo_user(steam_id):
-    if check_game_on_account(steam_id):
-        get_stats_in_game(steam_id)
-    get_friends(steam_id)
-    try:
-        GameUser.objects.update_or_create(
-            user_steam_id=steam_id,
-            games=games_user(steam_id)
-        )
-    except KeyError:
-        pass
-
-
 def get_recently_games(steam_id):
     """
     Получение последней статистики пользователя за 2 недели
@@ -114,3 +102,65 @@ def detach_steam(user):
     user.createdacc_time = None
     user.lastlogoff_time = None
     user.save()
+
+
+def connect_telegram(request):
+    telegram_id = request.GET.get('telegram_id')
+    if telegram_id:
+        profile, created = TelegramUser.objects.update_or_create(
+            user=request.user,
+            defaults={'telegram_id': telegram_id}
+        )
+        if created:
+            print("Создан новый профиль TelegramUser")
+        else:
+            print("Профиль TelegramUser обновлён")
+
+
+def check_update_url(user):
+    response = UserRecentlyPlayedGames.objects.filter(user_steam_id=user.steam_id)
+    if response.exists():
+        games = response.order_by('-playtime_2weeks')
+        total_playtime = response.first()
+    else:
+        games = []
+        total_playtime = 0
+    if bool(user.last_update_url):
+        time_diff = datetime.now(pytz.timezone('Europe/Moscow')) - user.last_update_url
+        can_detach = time_diff >= timedelta(hours=3)
+        context = {
+            'today': date.today(),
+            'can_detach': can_detach,
+            'time_diff': time_diff,
+            'games': games,
+            'total_playtime': total_playtime
+        }
+        return context
+    else:
+        context = {
+            'today': date.today(),
+            'can_detach': True,
+            'games': games,
+            'total_playtime': total_playtime,
+        }
+        return context
+
+
+def reset_update_url(request, user):
+    can_reset = request.GET.get('reset_url')
+    if can_reset:
+        user.last_update_url = user.last_update_url - timedelta(hours=10)
+        user.save()
+
+def get_fullinfo_user(steam_id):
+    if check_game_on_account(steam_id):
+        get_stats_in_game(steam_id)
+    get_friends(steam_id)
+    get_recently_games(steam_id)
+    try:
+        GameUser.objects.update_or_create(
+            user_steam_id=steam_id,
+            games=games_user(steam_id)
+        )
+    except KeyError:
+        pass

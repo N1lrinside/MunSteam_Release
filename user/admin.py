@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from user.models import SteamUser, UserRecentlyPlayedGames
+from user.models import SteamUser, UserRecentlyPlayedGames, TelegramUser
 
 
 @admin.register(SteamUser)
@@ -9,4 +9,4 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserRecentlyPlayedGames)
-
+admin.site.register(TelegramUser)

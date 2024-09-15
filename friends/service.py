@@ -7,10 +7,13 @@ from games.service import get_data_from_api
 def get_friends_list(steam_id):
     url = 'https://api.steampowered.com/ISteamUser/GetFriendList/v0001/'
     data = get_data_from_api(url, steam_id=steam_id)
-    for i in data['friendslist']['friends']:
-        add_friend = datetime.fromtimestamp(i['friend_since'])
-        i['friend_since'] = add_friend.strftime('%Y-%m-%d %H:%M:%S')
-    return sorted(data['friendslist']['friends'], key=lambda x: x['friend_since'])[:50]
+    try:
+        for i in data['friendslist']['friends']:
+            add_friend = datetime.fromtimestamp(i['friend_since'])
+            i['friend_since'] = add_friend.strftime('%Y-%m-%d %H:%M:%S')
+        return sorted(data['friendslist']['friends'], key=lambda x: x['friend_since'])[:50]
+    except KeyError:
+        return []
 
 
 def get_friend_info(steam_id):
@@ -47,5 +50,5 @@ def get_info_friends(steam_id):
         text = 'Друзья получены'
     else:
         info_friend = []
-        text = 'У вас нет друзей'
+        text = 'У вас нет друзей/Не удалось получить друзей(возможно они скрыты у вас)'
     return info_friend, text
